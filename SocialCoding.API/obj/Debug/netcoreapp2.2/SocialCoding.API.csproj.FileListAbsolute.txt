@@ -1,0 +1,14 @@
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\bin\Debug\netcoreapp2.2\SocialCoding.API.deps.json
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\bin\Debug\netcoreapp2.2\SocialCoding.API.runtimeconfig.json
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\bin\Debug\netcoreapp2.2\SocialCoding.API.runtimeconfig.dev.json
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\bin\Debug\netcoreapp2.2\SocialCoding.API.dll
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\bin\Debug\netcoreapp2.2\SocialCoding.API.pdb
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.csprojAssemblyReference.cache
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.csproj.CoreCompileInputs.cache
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.RazorAssemblyInfo.cache
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.RazorAssemblyInfo.cs
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.AssemblyInfoInputs.cache
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.AssemblyInfo.cs
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.RazorTargetAssemblyInfo.cache
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.dll
+C:\DotNet-Angular\SocialCoding\SocialCoding.API\obj\Debug\netcoreapp2.2\SocialCoding.API.pdb

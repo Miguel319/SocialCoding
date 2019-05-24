@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SocialCoding.API.Data;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SocialCoding.API.Controllers
 {
@@ -8,16 +12,24 @@ namespace SocialCoding.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly SocialCodingContext _context;
+
+        public ValuesController(SocialCodingContext context) =>  _context = context;
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2", "value3", "value4", "value5" };
+            var valores = await _context.Valores.ToListAsync();
+            return Ok(valores);
         }
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id) => "Hello, I'm a value";
-
+        public async Task<IActionResult> Get(int id)
+        {
+            var valor = await _context.Valores.FindAsync(id);
+            return Ok(valor);
+        }
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)
