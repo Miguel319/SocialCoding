@@ -8,7 +8,6 @@ namespace SocialCoding.API.Data
         public SocialCodingContext(DbContextOptions<SocialCodingContext> options) : base(options) {}
 
         public DbSet<Valor> Valores { get; set; }
-
-        
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }
