@@ -17,6 +17,7 @@ namespace SocialCoding.API.Controllers {
         public ValuesController (SocialCodingContext context) => _context = context;
 
         // GET api/values
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get () {
             var valores = await _context.Valores.ToListAsync ();

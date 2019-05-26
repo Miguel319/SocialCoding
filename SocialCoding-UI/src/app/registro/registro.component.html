@@ -1,0 +1,39 @@
+<form #registroFormulario="ngForm" (ngSubmit)="registrar()">
+  <h2 class="text-center text-primary">Registro de usuarios</h2>
+  <hr />
+
+  <div class="form-group">
+    <input
+      class="form-control"
+      type="text"
+      name="nombreUsuario"
+      placeholder="Nombre de usuario"
+      [(ngModel)]="usuario.nombreUsuario"
+      required
+    />
+  </div>
+  
+  <div class="form-group">
+    <input
+      class="form-control"
+      name="contra"
+      type="password"
+      [(ngModel)]="usuario.contra"
+      placeholder="Contraseña"
+      required
+    />
+  </div>
+
+  <div class="form-group text-center">
+    <button
+      type="submit"
+      [disabled]="!registroFormulario.valid"
+      class="btn btn-success"
+    >
+      Registrar
+    </button>
+    <button type="button" (click)="cancelar()" class="btn btn-danger ml-3">
+      Cancelar
+    </button>
+  </div>
+</form>

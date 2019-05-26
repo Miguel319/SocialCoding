@@ -1,0 +1,22 @@
+<div class="container mt-5">
+  <div *ngIf="!modoRegistro" style="text-align: center">
+    <h1>Encuentra a tus código-colegas</h1>
+    <p class="lead">Conoce a otros programadores como tú... !Regístrate ya!</p>
+    <div class="text-center">
+      <button class="btn btn-primary btn-lg" (click)="registrarCambio()">
+        Registrar
+      </button>
+      <button class="btn btn-info btn-lg ml-3">Más información</button>
+    </div>
+  </div>
+  <br />
+  <div *ngIf="modoRegistro" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-registro
+          (registroCancelado)="cancelarModoRegistro($event)"
+        ></app-registro>
+      </div>
+    </div>
+  </div>
+</div>
