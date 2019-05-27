@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../_servicios/auth.service";
+import { Usuario } from '../_modelos/usuario.model';
 
 @Component({
   selector: "app-registro",
@@ -8,17 +9,25 @@ import { AuthService } from "../_servicios/auth.service";
 })
 export class RegistroComponent implements OnInit {
   @Output() registroCancelado = new EventEmitter();
-  usuario: any = {};
+  usuario: Usuario;
 
   constructor(private authServicio: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.usuario = {
+      nombreUsuario: "",
+      contra: ""
+    };
+  }
 
   registrar() {
     this.authServicio
       .registrar(this.usuario)
       .subscribe(
-        res => console.log("Registro exitoso"),
+        res => {
+          console.log("Registro exitoso");
+          this.authServicio.limpiarCampos(this.usuario)
+        },
         err => console.error(err)
       );
   }

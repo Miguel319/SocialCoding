@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using SocialCoding.API.Data;
 using SocialCoding.API.Data.IRepositorio;
 using SocialCoding.API.Data.LogicaNegocios;
+using SocialCoding.API.Helpers;
 
 namespace SocialCoding.API {
     public class Startup {
@@ -49,6 +53,18 @@ namespace SocialCoding.API {
                 app.UseDeveloperExceptionPage ();
             } else {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler (builder =>
+                    builder.Run (async contexto => {
+                        contexto.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+
+                        var error = contexto.Features.Get<IExceptionHandlerFeature> ();
+
+                        if (error != null) {
+                            contexto.Response.AgregarError(error.Error.Message);
+                            await contexto.Response.WriteAsync (error.Error.Message);
+                        }
+                    })
+                );
                 // app.UseHsts();
             }
 

@@ -41,7 +41,7 @@ namespace SocialCoding.API.Controllers {
 
         [HttpPost ("isesion")]
         public async Task<IActionResult> ISesion (UsuarioAIniciarSesionDto usuarioARegistrarDto) {
-            var usuario = await _auth.IniciarSesion (usuarioARegistrarDto.NombreUsuario.ToLower(), usuarioARegistrarDto.Contra);
+            var usuario = await _auth.IniciarSesion (usuarioARegistrarDto.NombreUsuario.ToLower (), usuarioARegistrarDto.Contra);
 
             if (usuario == null) return Unauthorized ();
 
@@ -50,26 +50,23 @@ namespace SocialCoding.API.Controllers {
                 new Claim (ClaimTypes.Name, usuario.NombreUsuario)
             };
 
-            var key = new SymmetricSecurityKey 
-            (Encoding.UTF8.GetBytes (_config.GetSection("AppSettings:Token").Value));
+            var key = new SymmetricSecurityKey (Encoding.UTF8.GetBytes (_config.GetSection ("AppSettings:Token").Value));
 
-            var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var credenciales = new SigningCredentials (key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Subject = new ClaimsIdentity (claims),
+                Expires = DateTime.Now.AddDays (1),
                 SigningCredentials = credenciales
             };
 
-            var tokenM = new JwtSecurityTokenHandler();
+            var tokenM = new JwtSecurityTokenHandler ();
 
-            var token = tokenM.CreateToken(tokenDescriptor);
+            var token = tokenM.CreateToken (tokenDescriptor);
 
-            return Ok(new{
-                token = tokenM.WriteToken(token)
+            return Ok (new {
+                token = tokenM.WriteToken (token)
             });
         }
-        
     }
-
 }
