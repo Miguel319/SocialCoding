@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../_servicios/auth.service";
 import { Usuario } from "../_modelos/usuario.model";
+import { AlertifyService } from '../_servicios/alertify.service';
 
 @Component({
   selector: "app-nav",
@@ -10,7 +11,8 @@ import { Usuario } from "../_modelos/usuario.model";
 export class NavComponent implements OnInit {
   usuario: Usuario;
 
-  constructor(private authServicio: AuthService) {}
+  constructor(private authServicio: AuthService,
+    private alertify: AlertifyService) {}
 
   ngOnInit() {
     this.usuario = {
@@ -19,25 +21,29 @@ export class NavComponent implements OnInit {
     };
   }
 
+  getAuthServicio() {
+    return this.authServicio;
+  }
+
   iniciarSesion() {
     this.authServicio.iniciarSesion(this.usuario).subscribe(
       res => {
-        console.log("Sesión iniciada exitosamente");
+        this.alertify.exito('¡Sesión iniciada exitosamente!');
         this.authServicio.limpiarCampos(this.usuario);
       },
       err => {
+        this.alertify.error('¡Error al iniciar sesión!');
         console.log(err);
       }
     );
   }
 
   sesionIniciada() {
-    const token = localStorage.getItem("token");
-    return !!token;
+    return this.authServicio.sesionIniciada();
   }
 
   cerrarSesion() {
     localStorage.removeItem("token");
-    console.log("Sesión cerrada");
+    this.alertify.advertencia("!Sesión cerrada exitosamente!")
   }
 }

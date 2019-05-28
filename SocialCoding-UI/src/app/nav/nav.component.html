@@ -1,67 +1,66 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Social Coding</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#">Social Coding</a>
 
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item active">
-      <a class="nav-link" href="#"
-        >Posibles conocidos<span class="sr-only">(current)</span></a
-      >
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Coderos</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Mensajes</a>
-    </li>
-        <li class="nav-item">
-      <a class="nav-link" (click)="cerrarSesion()">Cerrar sesión</a>
-    </li>
-  </ul>
+    <ul *ngIf="sesionIniciada()" class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#"
+          >Posibles conocidos<span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Coderos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Mensajes</a>
+      </li>
+    </ul>
 
-  <div *ngIf="sesionIniciada()" class="dropdown">
-    <a class="dropdown-toggle text-light">
-      Bienvenido usuario
-    </a>
+    <div *ngIf="sesionIniciada()" class="dropdown" dropdown>
+      <a class="dropdown-toggle text-light pointing" dropdownToggle>
+        ¡Bienvenido {{ getAuthServicio().tokenD?.unique_name | titlecase }}!
+      </a>
 
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#"
-        ><i class="fa fa-user"></i> Editar perfil</a
-      >
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#"
-        ><i class="fa fa-sign-out"></i>Cerrar sesión</a
-      >
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item pointing"
+          ><i class="fa fa-user"></i> Editar perfil</a
+        >
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item pointing" (click)="cerrarSesion()"
+          ><i class="fa fa-sign-out"></i> Cerrar sesión</a
+        >
+      </div>
     </div>
-  </div>
 
-  <form
-    *ngIf="!sesionIniciada()"
-    #isesionForm="ngForm"
-    class="form-inline my-2 my-lg-0"
-    (ngSubmit)="iniciarSesion()"
-  >
-    <input
-      class="form-control mr-sm-2"
-      type="text"
-      placeholder="Nombre de usuario"
-      name="nombreUsuario"
-      [(ngModel)]="usuario.nombreUsuario"
-      required
-    />
-    <input
-      class="form-control mr-sm-2"
-      type="password"
-      placeholder="Contraseña"
-      name="contra"
-      [(ngModel)]="usuario.contra"
-      required
-    />
-    <button
-      class="btn btn-success my-2 my-sm-0"
-      [disabled]="!isesionForm.valid"
-      type="submit"
+    <form
+      *ngIf="!sesionIniciada()"
+      #isesionForm="ngForm"
+      class="form-inline my-2 my-lg-0"
+      (ngSubmit)="iniciarSesion()"
     >
-      Iniciar sesión
-    </button>
-  </form>
+      <input
+        class="form-control mr-sm-2"
+        type="text"
+        placeholder="Nombre de usuario"
+        name="nombreUsuario"
+        [(ngModel)]="usuario.nombreUsuario"
+        required
+      />
+      <input
+        class="form-control mr-sm-2"
+        type="password"
+        placeholder="Contraseña"
+        name="contra"
+        [(ngModel)]="usuario.contra"
+        required
+      />
+      <button
+        class="btn verde my-2 my-sm-0"
+        [disabled]="!isesionForm.valid"
+        type="submit"
+      >
+        Iniciar sesión
+      </button>
+    </form>
+  </div>
 </nav>
