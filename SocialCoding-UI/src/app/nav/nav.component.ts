@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../_servicios/auth.service";
 import { Usuario } from "../_modelos/usuario.model";
-import { AlertifyService } from '../_servicios/alertify.service';
+import { AlertifyService } from "../_servicios/alertify.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-nav",
@@ -11,8 +12,11 @@ import { AlertifyService } from '../_servicios/alertify.service';
 export class NavComponent implements OnInit {
   usuario: Usuario;
 
-  constructor(private authServicio: AuthService,
-    private alertify: AlertifyService) {}
+  constructor(
+    private authServicio: AuthService,
+    private alertify: AlertifyService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.usuario = {
@@ -28,12 +32,15 @@ export class NavComponent implements OnInit {
   iniciarSesion() {
     this.authServicio.iniciarSesion(this.usuario).subscribe(
       res => {
-        this.alertify.exito('¡Sesión iniciada exitosamente!');
+        this.alertify.exito("¡Sesión iniciada exitosamente!");
         this.authServicio.limpiarCampos(this.usuario);
       },
       err => {
-        this.alertify.error('¡Error al iniciar sesión!');
+        this.alertify.error("¡Error al iniciar sesión!");
         console.log(err);
+      },
+      () => {
+        this.router.navigate(["/miembros"]);
       }
     );
   }
@@ -44,6 +51,7 @@ export class NavComponent implements OnInit {
 
   cerrarSesion() {
     localStorage.removeItem("token");
-    this.alertify.advertencia("!Sesión cerrada exitosamente!")
+    this.alertify.advertencia("!Sesión cerrada exitosamente!");
+    this.router.navigate(["/principal"]);
   }
 }

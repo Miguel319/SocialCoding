@@ -1,18 +1,36 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary">
   <div class="container">
-    <a class="navbar-brand" href="#">Social Coding</a>
+    <a
+      class="navbar-brand"
+      [routerLink]="['/principal']"
+      routerLinkActive="active"
+      >Social Coding</a
+    >
 
     <ul *ngIf="sesionIniciada()" class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#"
-          >Posibles conocidos<span class="sr-only">(current)</span></a
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/favoritos']"
+          routerLinkActive="active"
+          >Favoritos<span class="sr-only">(current)</span></a
         >
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Coderos</a>
+        <a
+          class="nav-link"
+          [routerLink]="['/coderos']"
+          routerLinkActive="active"
+          >Coderos</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Mensajes</a>
+        <a
+          class="nav-link"
+          [routerLink]="['/mensajes']"
+          routerLinkActive="router-link-active"
+          >Mensajes</a
+        >
       </li>
     </ul>
 

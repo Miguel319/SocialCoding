@@ -43,7 +43,7 @@ namespace SocialCoding.API.Data.LogicaNegocios {
 
             await _contexto.Usuarios.AddAsync (usuario);
             await _contexto.SaveChangesAsync ();
-
+            
             return usuario;
         }
 
