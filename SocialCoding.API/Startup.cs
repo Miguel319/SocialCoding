@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -27,8 +28,15 @@ namespace SocialCoding.API {
                 x => x.UseSqlite (
                     Configuration.GetConnectionString ("ConexionDb")));
 
-            services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_2);
+            services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(op => 
+                op.SerializerSettings.ReferenceLoopHandling =
+                 Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
             services.AddCors ();
+            services.AddAutoMapper();
+            services.AddTransient<Seed>();
+            services.AddScoped<ICoderos, Coderos>();
 
             #region LogicaNegocios
             // AddScoped --> El servicio es creado una vez por petición
@@ -48,7 +56,7 @@ namespace SocialCoding.API {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IHostingEnvironment env) {
+        public void Configure (IApplicationBuilder app, IHostingEnvironment env, Seed seeder) {
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
             } else {
@@ -69,6 +77,7 @@ namespace SocialCoding.API {
             }
 
             // app.UseHttpsRedirection();
+            // seeder.seedUsuarios();
             app.UseCors (x => x.AllowAnyOrigin ().AllowAnyMethod ().AllowAnyHeader ());
             app.UseAuthentication ();
             app.UseMvc ();

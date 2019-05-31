@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialCoding.API.Data;
 
 namespace SocialCoding.API.Migrations
 {
     [DbContext(typeof(SocialCodingContext))]
-    partial class SocialCodingContextModelSnapshot : ModelSnapshot
+    [Migration("20190528224559_UsuarioExtension")]
+    partial class UsuarioExtension
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +40,24 @@ namespace SocialCoding.API.Migrations
                     b.ToTable("Imagenes");
                 });
 
+            modelBuilder.Entity("SocialCoding.API.Models.Lenguaje", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("AgregadoEn");
+
+                    b.Property<string>("Nombre");
+
+                    b.Property<int?>("UsuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Lenguajes");
+                });
+
             modelBuilder.Entity("SocialCoding.API.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -56,10 +76,6 @@ namespace SocialCoding.API.Migrations
                     b.Property<DateTime>("FechaNacimiento");
 
                     b.Property<string>("Genero");
-
-                    b.Property<string>("Hobbies");
-
-                    b.Property<string>("Lenguajes");
 
                     b.Property<string>("NombreUsuario");
 
@@ -92,6 +108,13 @@ namespace SocialCoding.API.Migrations
                         .WithMany("Imagenes")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SocialCoding.API.Models.Lenguaje", b =>
+                {
+                    b.HasOne("SocialCoding.API.Models.Usuario")
+                        .WithMany("Lenguajes")
+                        .HasForeignKey("UsuarioId");
                 });
 #pragma warning restore 612, 618
         }

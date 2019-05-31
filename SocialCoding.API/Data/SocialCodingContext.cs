@@ -9,5 +9,6 @@ namespace SocialCoding.API.Data
 
         public DbSet<Valor> Valores { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Imagen> Imagenes { get; set; }
     }
 }

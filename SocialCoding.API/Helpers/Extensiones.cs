@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 
 namespace SocialCoding.API.Helpers {
@@ -6,6 +7,15 @@ namespace SocialCoding.API.Helpers {
             respuesta.Headers.Add("Application-Error", mensaje);
             respuesta.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
             respuesta.Headers.Add("Access-Control-Allow-Origin", "*");
+        }
+
+        public static int CalcularEdad(this DateTime fecha) {
+            var edad = DateTime.Today.Year - fecha.Year;
+
+            if ( fecha.AddYears(edad) > DateTime.Today ) 
+                edad --;
+            
+            return edad;
         }
     }
 }
