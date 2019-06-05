@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../_servicios/auth.service";
-import { Usuario } from "../_modelos/usuario.model";
+import { UsuarioAuth } from "../_modelos/usuario-auth";
 import { AlertifyService } from "../_servicios/alertify.service";
 
 @Component({
@@ -10,7 +10,7 @@ import { AlertifyService } from "../_servicios/alertify.service";
 })
 export class RegistroComponent implements OnInit {
   @Output() registroCancelado = new EventEmitter();
-  usuario: Usuario;
+  usuario: UsuarioAuth;
 
   constructor(
     private authServicio: AuthService,

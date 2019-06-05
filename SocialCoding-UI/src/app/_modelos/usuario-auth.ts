@@ -1,4 +1,4 @@
-export class Usuario {
+export interface UsuarioAuth {
     nombreUsuario: string;
     contra: string;   
 }

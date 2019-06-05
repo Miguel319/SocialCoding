@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from '../_modelos/usuario';
+import { UsuarioService } from '../_servicios/usuario.service';
+import { AlertifyService } from '../_servicios/alertify.service';
 
 @Component({
   selector: 'app-coderos-lista',
@@ -6,10 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./coderos-lista.component.css']
 })
 export class CoderosListaComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
+    
   }
-
 }
