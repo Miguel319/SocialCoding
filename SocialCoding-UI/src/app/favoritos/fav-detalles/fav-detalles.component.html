@@ -1,1 +1,66 @@
-<p class="mt-5">{{ usuario?.alias }} {{ usuario?.edad }}</p>
+<div class="container">
+  <div class="row">
+    <h2 class="ml-4">Perfil de {{ usuario.alias }}</h2>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{ usuario?.imagenUrl }}"
+          alt="{{ usuario?.alias }}"
+        />
+        <div class="card-body">
+          <div>
+            <strong>Ubicación:</strong>
+            <p>{{ usuario.ciudad }}, {{ usuario.pais }}</p>
+          </div>
+          <div>
+            <strong>Edad:</strong>
+            <p>{{ usuario.edad }}</p>
+          </div>
+          <div>
+            <strong>Última sesión:</strong>
+            <p>{{ usuario.ultimaSesion }}</p>
+          </div>
+          <div>
+            <strong>Miembro desde:</strong>
+            <p>{{ usuario.creadoEn }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-flex alt-btn">
+            <button type="button" class="btn btn-outline-success w-100">
+              Me gusta
+            </button>
+            <button type="button" class="btn btn-outline-primary w-100">
+              Mensaje
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="fav-tabset">
+          <tab heading="Acerca de {{ usuario?.alias }}">
+            <h4>Trabaja en</h4>
+            <p>{{ usuario.trabajaEn }}</p>
+            <h4>Programa en</h4>
+            <p>{{ usuario.lenguajes }}</p>
+          </tab>
+          <tab heading="Imágenes">
+            <ngx-gallery
+              [options]="galeriaOpciones"
+              [images]="galeriaImgs"
+            ></ngx-gallery>
+            <p>Las imágenes van aquí</p>
+          </tab>
+          <tab heading="Mensajes">
+            <p>Los mensajes van aquí</p>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>
