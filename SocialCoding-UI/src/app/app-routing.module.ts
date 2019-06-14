@@ -7,7 +7,9 @@ import { MensajesComponent } from "./mensajes/mensajes.component";
 import { AuthGuard } from "./_guards/auth.guard";
 import { FavDetallesComponent } from "./favoritos/fav-detalles/fav-detalles.component";
 import { FavDetalleResolver } from "./_resolvers/fav-detalle.resolver";
-import { FavListaResolver } from './_resolvers/fav-lista.resolver';
+import { FavListaResolver } from "./_resolvers/fav-lista.resolver";
+import { FavEditarComponent } from "./favoritos/fav-editar/fav-editar.component";
+import { FavEditarResolver } from "./_resolvers/fav-editar.resolver";
 
 const routes: Routes = [
   { path: "", component: PrincipalComponent },
@@ -16,13 +18,20 @@ const routes: Routes = [
     runGuardsAndResolvers: "always",
     canActivate: [AuthGuard],
     children: [
-      { path: "favoritos", component: CoderosFavComponent,
-        resolve: { usuarios: FavListaResolver}
-    },
+      {
+        path: "favoritos",
+        component: CoderosFavComponent,
+        resolve: { usuarios: FavListaResolver }
+      },
       {
         path: "favoritos/:id",
         component: FavDetallesComponent,
         resolve: { usuario: FavDetalleResolver }
+      },
+      {
+        path: "fav/editar",
+        component: FavEditarComponent,
+        resolve: { usuario: FavEditarResolver }
       },
       { path: "coderos", component: CoderosListaComponent },
       { path: "mensajes", component: MensajesComponent }

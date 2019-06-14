@@ -8,18 +8,19 @@ import { catchError } from "rxjs/operators";
 import { AuthService } from "../_servicios/auth.service";
 
 @Injectable()
-export class FavDetalleResolver implements Resolve<Usuario> {
+export class FavEditarResolver implements Resolve<Usuario> {
   constructor(
     private usuarioServicio: UsuarioService,
     private router: Router,
+    private authService: AuthService,
     private alertify: AlertifyService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Usuario> {
-    return this.usuarioServicio.getUsuario(route.params["id"]).pipe(
+    return this.usuarioServicio.getUsuario(this.authService.tokenD.nameid).pipe(
       catchError(err => {
         console.error(err);
-        this.alertify.error("Problema al obtener los datos");
+        this.alertify.error("Problema al obtener los datos.");
         this.router.navigate(["/favoritos"]);
         return of(null);
       })

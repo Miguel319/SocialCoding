@@ -37,6 +37,10 @@ export class AuthService {
     usuario.contra = "";
   }
 
+  getTokenD() {
+    return this.tokenD;
+  }
+
   sesionIniciada() {
     const token = localStorage.getItem("token");
     return !this.jwtHelper.isTokenExpired(token);

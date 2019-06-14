@@ -4,7 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { BsDropdownModule, TabsModule } from "ngx-bootstrap";
 import { JwtModule } from "@auth0/angular-jwt";
-import { NgxGalleryModule } from 'ngx-gallery';
+import { NgxGalleryModule } from "ngx-gallery";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -22,7 +22,9 @@ import { UsuarioService } from "./_servicios/usuario.service";
 import { TarjetasFavComponent } from "./favoritos/tarjetas-fav/tarjetas-fav.component";
 import { FavDetallesComponent } from "./favoritos/fav-detalles/fav-detalles.component";
 import { FavDetalleResolver } from "./_resolvers/fav-detalle.resolver";
-import { FavListaResolver } from './_resolvers/fav-lista.resolver';
+import { FavListaResolver } from "./_resolvers/fav-lista.resolver";
+import { FavEditarComponent } from "./favoritos/fav-editar/fav-editar.component";
+import { FavEditarResolver } from "./_resolvers/fav-editar.resolver";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -38,7 +40,8 @@ export function tokenGetter() {
     CoderosFavComponent,
     MensajesComponent,
     TarjetasFavComponent,
-    FavDetallesComponent
+    FavDetallesComponent,
+    FavEditarComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ export function tokenGetter() {
     AuthGuard,
     UsuarioService,
     FavDetalleResolver,
-    FavListaResolver
+    FavListaResolver,
+    FavEditarResolver
   ],
   bootstrap: [AppComponent]
 })

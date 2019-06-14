@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h2 class="ml-4">Tu perfil</h2>
+    </div>
+    <div *ngIf="formularioEdicion.dirty" class="col-sm-8">
+      <div class="alert alert-info">
+        <strong>Aviso: </strong>Usted ha realizado cambios. Asegúrese de
+        guardarlos.
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{ usuario?.imagenUrl }}"
+          alt="{{ usuario?.alias }}"
+        />
+        <div class="card-body">
+          <div>
+            <strong>Ubicación:</strong>
+            <p>{{ usuario.ciudad }}, {{ usuario.pais }}</p>
+          </div>
+          <div>
+            <strong>Edad:</strong>
+            <p>{{ usuario.edad }}</p>
+          </div>
+          <div>
+            <strong>Última sesión:</strong>
+            <p>{{ usuario.ultimaSesion }}</p>
+          </div>
+          <div>
+            <strong>Miembro desde:</strong>
+            <p>{{ usuario.creadoEn }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button
+            form="formulario"
+            [disabled]="!formularioEdicion.dirty"
+            class="btn btn-outline-success btn-block"
+          >
+            Guardar cambios
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="fav-tabset">
+          <tab heading="Editar perfil">
+            <form
+              #formularioEdicion="ngForm"
+              (ngSubmit)="actualizarUsuario()"
+              id="formulario"
+            >
+              <h4>Trabaja en</h4>
+              <textarea
+                name="trabajaEn"
+                rows="6"
+                [(ngModel)]="usuario.trabajaEn"
+                class="form-control"
+              ></textarea>
+              <h4>Programa en</h4>
+              <textarea
+                name="lenguajes"
+                rows="6"
+                [(ngModel)]="usuario.lenguajes"
+                class="form-control"
+              ></textarea>
+              <h4>Ubicación</h4>
+              <div class="form-inline">
+                <label for="ciudad">Ciudad</label>
+                <input
+                  name="ciudad"
+                  class="form-control"
+                  [(ngModel)]="usuario.ciudad"
+                />
+                <label for="pais">País</label>
+                <input
+                  name="ciudad"
+                  class="form-control"
+                  [(ngModel)]="usuario.pais"
+                />
+              </div>
+            </form>
+          </tab>
+          <tab heading="Editar imágenes">
+            <p>Edición de imágenes va aquí</p>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>
