@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialCoding.API.Data.IRepositorio;
 using SocialCoding.API.Dtos;
-using SocialCoding.API.Models;
 
 namespace SocialCoding.API.Controllers {
     [Authorize]
@@ -40,19 +39,5 @@ namespace SocialCoding.API.Controllers {
 
             throw new Exception ($"Error al actualizar usuario {id}");
         }
-
-        /*  [HttpPut ("{id}")]
-        public async Task<IActionResult> Actualizar (int id, UsuarioEdicionDto usuarioEdicionDto) {
-            if (id != int.Parse (User.FindFirst (ClaimTypes.NameIdentifier).Value)) return Unauthorized ();
-
-            var usurioDelRepo = await _coderos.ObtenerUsuario (id);
-
-            _mapper.Map (usuarioEdicionDto, usurioDelRepo);
-
-            if (await _coderos.Guardar()) return NoContent();
-
-            throw new Exception($"Error al actualizar usuario {id}");
-        }
-*/
     }
 }

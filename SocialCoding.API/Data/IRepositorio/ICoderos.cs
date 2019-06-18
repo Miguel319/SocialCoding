@@ -12,5 +12,6 @@ namespace SocialCoding.API.Data.IRepositorio
          Task<bool> Guardar();
          Task<IEnumerable<Usuario>> ObtenerUsuarios();
          Task<Usuario> ObtenerUsuario(int id);
+         Task<Imagen> ObtenerImagen(int id);
     }
 }

@@ -19,6 +19,9 @@ namespace SocialCoding.API.Data.LogicaNegocios
         public async Task<bool> Guardar()
             => await _contexto.SaveChangesAsync() > 0;
 
+        public async Task<Imagen> ObtenerImagen(int id)
+           => await _contexto.Imagenes.FirstOrDefaultAsync(img => img.Id == id);
+
         public async Task<Usuario> ObtenerUsuario(int id)
          => await _contexto.Usuarios.Include(img => img.Imagenes)
                 .FirstOrDefaultAsync(usuario => usuario.Id == id);

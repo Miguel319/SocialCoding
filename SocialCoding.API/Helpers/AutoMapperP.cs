@@ -17,6 +17,8 @@ namespace SocialCoding.API.Helpers {
 
             CreateMap<Imagen, ImagenDetallesDto> ();
             CreateMap<UsuarioEdicionDto, Usuario> ();
+            CreateMap<Imagen, ImagenARetornarDto>();
+            CreateMap<ImagenACrearDto, Imagen>();
         }
     }
 }
