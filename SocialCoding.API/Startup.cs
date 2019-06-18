@@ -29,14 +29,15 @@ namespace SocialCoding.API {
                     Configuration.GetConnectionString ("ConexionDb")));
 
             services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(op => 
-                op.SerializerSettings.ReferenceLoopHandling =
-                 Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                    );
+                .AddJsonOptions (op =>
+                    op.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
             services.AddCors ();
-            services.AddAutoMapper();
-            services.AddTransient<Seed>();
-            services.AddScoped<ICoderos, Coderos>();
+            services.Configure<CloudinarySettings> (Configuration.GetSection ("CloudinarySettings"));
+            services.AddAutoMapper ();
+            services.AddTransient<Seed> ();
+            services.AddScoped<ICoderos, Coderos> ();
 
             #region LogicaNegocios
             // AddScoped --> El servicio es creado una vez por petición
@@ -68,7 +69,7 @@ namespace SocialCoding.API {
                         var error = contexto.Features.Get<IExceptionHandlerFeature> ();
 
                         if (error != null) {
-                            contexto.Response.AgregarError(error.Error.Message);
+                            contexto.Response.AgregarError (error.Error.Message);
                             await contexto.Response.WriteAsync (error.Error.Message);
                         }
                     })

@@ -8,6 +8,7 @@ namespace SocialCoding.API.Models
         public string Descripcion { get; set; }
         public DateTime AgregadaEn { get; set; }
         public bool DePerfil { get; set; }
+        public string IdPublica { get; set; }
         public Usuario Usuario { get; set; }
         public int UsuarioId { get; set; }
     }
