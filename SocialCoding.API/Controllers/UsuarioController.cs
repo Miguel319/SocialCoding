@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -21,15 +23,36 @@ namespace SocialCoding.API.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObtenerUsuarios () 
-        => Ok (_mapper.Map<IEnumerable<UsuarioListaDto>> (await _coderos.ObtenerUsuarios ()));
+        public async Task<IActionResult> ObtenerUsuarios () => Ok (_mapper.Map<IEnumerable<UsuarioListaDto>> (await _coderos.ObtenerUsuarios ()));
 
         [HttpGet ("{id}")]
-        public async Task<IActionResult> ObtenerUsuario (int id) 
-        => Ok (_mapper.Map<UsuarioDetallesDto> (await _coderos.ObtenerUsuario (id)));
+        public async Task<IActionResult> ObtenerUsuario (int id) => Ok (_mapper.Map<UsuarioDetallesDto> (await _coderos.ObtenerUsuario (id)));
 
-        // public async Task<IActionResult> Agregar(Usuario usuario) {
+        [HttpPut ("{id}")]
+        public async Task<IActionResult> ActualizarUsuario (int id, UsuarioEdicionDto usuarioEdicionDto) {
+            if (id != int.Parse (User.FindFirst (ClaimTypes.NameIdentifier).Value)) return Unauthorized ();
 
-        // }
+            var usuarioRepo = await _coderos.ObtenerUsuario (id);
+
+            _mapper.Map (usuarioEdicionDto, usuarioRepo);
+
+            if (await _coderos.Guardar ()) return NoContent ();
+
+            throw new Exception ($"Error al actualizar usuario {id}");
+        }
+
+        /*  [HttpPut ("{id}")]
+        public async Task<IActionResult> Actualizar (int id, UsuarioEdicionDto usuarioEdicionDto) {
+            if (id != int.Parse (User.FindFirst (ClaimTypes.NameIdentifier).Value)) return Unauthorized ();
+
+            var usurioDelRepo = await _coderos.ObtenerUsuario (id);
+
+            _mapper.Map (usuarioEdicionDto, usurioDelRepo);
+
+            if (await _coderos.Guardar()) return NoContent();
+
+            throw new Exception($"Error al actualizar usuario {id}");
+        }
+*/
     }
 }

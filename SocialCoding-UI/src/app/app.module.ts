@@ -25,6 +25,7 @@ import { FavDetalleResolver } from "./_resolvers/fav-detalle.resolver";
 import { FavListaResolver } from "./_resolvers/fav-lista.resolver";
 import { FavEditarComponent } from "./favoritos/fav-editar/fav-editar.component";
 import { FavEditarResolver } from "./_resolvers/fav-editar.resolver";
+import { NoGuardado } from './_resolvers/no-guardado.guard';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -67,7 +68,8 @@ export function tokenGetter() {
     UsuarioService,
     FavDetalleResolver,
     FavListaResolver,
-    FavEditarResolver
+    FavEditarResolver,
+    NoGuardado
   ],
   bootstrap: [AppComponent]
 })

@@ -19,4 +19,8 @@ export class UsuarioService {
   getUsuario(id: number | string): Observable<Usuario> {
     return this.http.get<Usuario>(this.urlBase + "usuarios/" + id);
   }
+
+  actualizarUsuario(id: number, usuario: Usuario) {
+    return this.http.put(this.urlBase + 'usuarios/' + id, usuario);
+  }
 }

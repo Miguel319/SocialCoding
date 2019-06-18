@@ -16,6 +16,7 @@ namespace SocialCoding.API.Helpers {
                 .ForMember (x => x.Edad, opt => opt.ResolveUsing (d => d.FechaNacimiento.CalcularEdad ()));
 
             CreateMap<Imagen, ImagenDetallesDto> ();
+            CreateMap<UsuarioEdicionDto, Usuario> ();
         }
     }
 }

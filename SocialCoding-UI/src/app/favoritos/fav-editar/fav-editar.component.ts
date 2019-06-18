@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, HostListener } from "@angular/core";
 import { Usuario } from "src/app/_modelos/usuario";
 import { ActivatedRoute } from "@angular/router";
 import { AlertifyService } from "src/app/_servicios/alertify.service";
 import { NgForm } from "@angular/forms";
+import { UsuarioService } from "src/app/_servicios/usuario.service";
+import { AuthService } from "src/app/_servicios/auth.service";
 
 @Component({
   selector: "app-fav-editar",
@@ -10,12 +12,20 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./fav-editar.component.css"]
 })
 export class FavEditarComponent implements OnInit {
-  @ViewChild("formularioEdicion") editarFormulario: NgForm;
   usuario: Usuario;
+  @ViewChild("formularioEdicion") editarFormulario: NgForm;
+  @HostListener("window:beforeunload", ["$event"])
+  unloadNotification($event: any) {
+    if (this.editarFormulario.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
     private route: ActivatedRoute,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private usuarioServicio: UsuarioService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -25,8 +35,14 @@ export class FavEditarComponent implements OnInit {
   }
 
   actualizarUsuario() {
-    console.log(this.usuario);
-    this.alertify.exito("¡Perfil actualizado satisfactoriamente!");
-    this.editarFormulario.reset(this.usuario);
+    this.usuarioServicio
+      .actualizarUsuario(this.authService.tokenD.nameid, this.usuario)
+      .subscribe(
+        data => {
+          this.alertify.exito("¡Perfil actualizado satisfactoriamente!");
+          this.editarFormulario.reset(this.usuario);
+        },
+        err => this.alertify.error(err)
+      );
   }
 }

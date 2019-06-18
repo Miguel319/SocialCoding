@@ -10,6 +10,7 @@ import { FavDetalleResolver } from "./_resolvers/fav-detalle.resolver";
 import { FavListaResolver } from "./_resolvers/fav-lista.resolver";
 import { FavEditarComponent } from "./favoritos/fav-editar/fav-editar.component";
 import { FavEditarResolver } from "./_resolvers/fav-editar.resolver";
+import { NoGuardado } from "./_resolvers/no-guardado.guard";
 
 const routes: Routes = [
   { path: "", component: PrincipalComponent },
@@ -31,7 +32,8 @@ const routes: Routes = [
       {
         path: "fav/editar",
         component: FavEditarComponent,
-        resolve: { usuario: FavEditarResolver }
+        resolve: { usuario: FavEditarResolver },
+        canDeactivate: [NoGuardado]
       },
       { path: "coderos", component: CoderosListaComponent },
       { path: "mensajes", component: MensajesComponent }

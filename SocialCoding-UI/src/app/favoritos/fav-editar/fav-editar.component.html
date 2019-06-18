@@ -59,15 +59,22 @@
               <h4>Trabaja en</h4>
               <textarea
                 name="trabajaEn"
-                rows="6"
+                rows="3"
                 [(ngModel)]="usuario.trabajaEn"
                 class="form-control"
               ></textarea>
               <h4>Programa en</h4>
               <textarea
                 name="lenguajes"
-                rows="6"
+                rows="3"
                 [(ngModel)]="usuario.lenguajes"
+                class="form-control"
+              ></textarea>
+              <h4>Hobbies</h4>
+              <textarea
+                name="hobbies"
+                rows="3"
+                [(ngModel)]="usuario.hobbies"
                 class="form-control"
               ></textarea>
               <h4>Ubicación</h4>
@@ -80,7 +87,7 @@
                 />
                 <label for="pais">País</label>
                 <input
-                  name="ciudad"
+                  name="pais"
                   class="form-control"
                   [(ngModel)]="usuario.pais"
                 />
