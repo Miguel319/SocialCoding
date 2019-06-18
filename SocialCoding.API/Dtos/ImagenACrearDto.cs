@@ -6,7 +6,7 @@ namespace SocialCoding.API.Dtos
     public class ImagenACrearDto
     {
         public string Url { get; set; }
-        public IFormFile Archivo { get; set; }
+        public IFormFile File { get; set; }
         public string Descripcion { get; set; }
         public DateTime AgregadaEn { get; set; }
         public string IdPublica { get; set; }

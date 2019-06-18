@@ -47,20 +47,19 @@ namespace SocialCoding.API.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> AgregarImagen (int usuarioId,
-            ImagenACrearDto imagenACrearDto) {
+        public async Task<IActionResult> AgregarImagen (int usuarioId, [FromForm] ImagenACrearDto imagenACrearDto) {
 
             if (usuarioId != int.Parse (User.FindFirst (ClaimTypes.NameIdentifier).Value)) return Unauthorized ();
 
             var usuarioDeRepo = await _repo.ObtenerUsuario (usuarioId);
 
-            var archivo = imagenACrearDto.Archivo;
+            var file = imagenACrearDto.File;
             var subidaResultados = new ImageUploadResult ();
 
-            if (archivo.Length > 0) {
-                using (var stream = archivo.OpenReadStream ()) {
+            if (file.Length > 0) {
+                using (var stream = file.OpenReadStream ()) {
                     var parametrosDeSubida = new ImageUploadParams () {
-                    File = new FileDescription (archivo.Name, stream),
+                    File = new FileDescription (file.Name, stream),
                     Transformation = new Transformation ().Width (500).Height (500)
                     .Crop ("fill").Gravity ("face")
                     };

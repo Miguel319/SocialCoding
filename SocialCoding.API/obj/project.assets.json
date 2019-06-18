@@ -12552,11 +12552,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\DotNet-Angular\\SocialCoding\\SocialCoding.API\\SocialCoding.API.csproj",
+      "projectUniqueName": "C:\\DotNet-Angular\\SocialCoding\\SocialCoding.API\\SocialCoding.API.csproj",
       "projectName": "SocialCoding.API",
-      "projectPath": "c:\\DotNet-Angular\\SocialCoding\\SocialCoding.API\\SocialCoding.API.csproj",
+      "projectPath": "C:\\DotNet-Angular\\SocialCoding\\SocialCoding.API\\SocialCoding.API.csproj",
       "packagesPath": "C:\\Users\\migue\\.nuget\\packages\\",
-      "outputPath": "c:\\DotNet-Angular\\SocialCoding\\SocialCoding.API\\obj\\",
+      "outputPath": "C:\\DotNet-Angular\\SocialCoding\\SocialCoding.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
