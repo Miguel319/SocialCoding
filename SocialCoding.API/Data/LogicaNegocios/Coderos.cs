@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SocialCoding.API.Data.IRepositorio;
@@ -19,6 +20,10 @@ namespace SocialCoding.API.Data.LogicaNegocios
         public async Task<bool> Guardar()
             => await _contexto.SaveChangesAsync() > 0;
 
+        public async Task<Imagen> ObtenerFotoDePerfil(int usuarioId)
+            => await _contexto.Imagenes.Where(img => img.UsuarioId == usuarioId)
+            .FirstOrDefaultAsync(img => img.DePerfil);
+            
         public async Task<Imagen> ObtenerImagen(int id)
            => await _contexto.Imagenes.FirstOrDefaultAsync(img => img.Id == id);
 

@@ -51,6 +51,9 @@ export class NavComponent implements OnInit {
 
   cerrarSesion() {
     localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    this.authServicio.tokenD = null;
+    this.authServicio.usuarioActual = null;
     this.alertify.advertencia("!Sesión cerrada exitosamente!");
     this.router.navigate(["/principal"]);
   }

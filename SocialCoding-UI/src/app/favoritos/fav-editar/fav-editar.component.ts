@@ -45,4 +45,8 @@ export class FavEditarComponent implements OnInit {
         err => this.alertify.error(err)
       );
   }
+
+  actualizarFotoDePerfil(event: any) {
+    this.usuario.imagenUrl = event;
+  }
 }

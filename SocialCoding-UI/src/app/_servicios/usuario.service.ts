@@ -23,4 +23,9 @@ export class UsuarioService {
   actualizarUsuario(id: number, usuario: Usuario) {
     return this.http.put(this.urlBase + 'usuarios/' + id, usuario);
   }
+
+  establecerFotoDePerfil(usuarioId: number, id: number) {
+    return this.http.post(this.urlBase + "usuarios/" + usuarioId + "/imagenes/" + id + "/establecerDePerfil", {});
+  }
+  
 }

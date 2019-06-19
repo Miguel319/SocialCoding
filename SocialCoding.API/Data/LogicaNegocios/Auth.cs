@@ -11,7 +11,8 @@ namespace SocialCoding.API.Data.LogicaNegocios {
 
         public async Task<Usuario> IniciarSesion (string nombreUsuario, string contra) 
         {
-            var usuario = await _contexto.Usuarios.FirstOrDefaultAsync(x => x.NombreUsuario == nombreUsuario);
+            var usuario = await _contexto.Usuarios.Include(img => img.Imagenes)
+            .FirstOrDefaultAsync(x => x.NombreUsuario == nombreUsuario);
 
             if (usuario == null) return null;
 

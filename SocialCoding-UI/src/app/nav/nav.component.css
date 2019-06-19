@@ -6,3 +6,9 @@
   background-color: #297533;
   color: #fff;
 }
+
+img {
+  max-height: 50px;
+  border: 2px solid white;
+  display: inline;
+}

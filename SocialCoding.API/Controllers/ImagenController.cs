@@ -86,5 +86,29 @@ namespace SocialCoding.API.Controllers {
 
             return BadRequest ("No se pudo añadir la imagen");
         }
+
+        [HttpPost("{id}/establecerDePerfil")]
+        public async Task<IActionResult> EstablecerFotoDePerfil(int usuarioId, int id) {
+            if (usuarioId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var usuarioDelRepo = await _repo.ObtenerUsuario(usuarioId);
+
+            if (!usuarioDelRepo.Imagenes.Any(p => p.Id == id))
+                return Unauthorized();
+
+            var imagenDelRepo = await _repo.ObtenerImagen(id);
+
+            if (imagenDelRepo.DePerfil) return BadRequest("Esta ya es la foto de perfil.");
+            
+            var fotoDePefilActual = await _repo.ObtenerFotoDePerfil(usuarioId);
+            fotoDePefilActual.DePerfil = false;
+
+            imagenDelRepo.DePerfil = true;
+            
+            if (await _repo.Guardar()) return NoContent();
+
+            return BadRequest("No se pudo establecer foto de perfil.");
+        }
     }
 }

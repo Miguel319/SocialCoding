@@ -95,7 +95,7 @@
             </form>
           </tab>
           <tab heading="Editar imágenes">
-            <app-imagen-editar [imagenes]="usuario.imagenes"></app-imagen-editar>
+            <app-imagen-editar (fotoDePerfil)="actualizarFotoDePerfil($event)" [imagenes]="usuario.imagenes"></app-imagen-editar>
           </tab>
         </tabset>
       </div>

@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,10 +18,12 @@ namespace SocialCoding.API.Controllers {
     public class AuthController : ControllerBase {
         private readonly IAuth _auth;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
 
-        public AuthController (IAuth auth, IConfiguration config) {
+        public AuthController (IAuth auth, IConfiguration config, IMapper mapper) {
             _config = config;
             _auth = auth;
+            _mapper = mapper;
         }
 
         [HttpPost ("registrar")]
@@ -41,13 +44,13 @@ namespace SocialCoding.API.Controllers {
 
         [HttpPost ("isesion")]
         public async Task<IActionResult> ISesion (UsuarioAIniciarSesionDto usuarioARegistrarDto) {
-            var usuario = await _auth.IniciarSesion (usuarioARegistrarDto.NombreUsuario.ToLower (), usuarioARegistrarDto.Contra);
+            var usuarioDelRepo = await _auth.IniciarSesion (usuarioARegistrarDto.NombreUsuario.ToLower (), usuarioARegistrarDto.Contra);
 
-            if (usuario == null) return Unauthorized ();
+            if (usuarioDelRepo == null) return Unauthorized ();
 
             var claims = new [] {
-                new Claim (ClaimTypes.NameIdentifier, usuario.Id.ToString ()),
-                new Claim (ClaimTypes.Name, usuario.NombreUsuario)
+                new Claim (ClaimTypes.NameIdentifier, usuarioDelRepo.Id.ToString ()),
+                new Claim (ClaimTypes.Name, usuarioDelRepo.NombreUsuario)
             };
 
             var key = new SymmetricSecurityKey (Encoding.UTF8.GetBytes (_config.GetSection ("AppSettings:Token").Value));
@@ -64,8 +67,11 @@ namespace SocialCoding.API.Controllers {
 
             var token = tokenM.CreateToken (tokenDescriptor);
 
+            var usuario = _mapper.Map<UsuarioListaDto> (usuarioDelRepo);
+
             return Ok (new {
-                token = tokenM.WriteToken (token)
+                token = tokenM.WriteToken (token),
+                    usuario
             });
         }
     }
