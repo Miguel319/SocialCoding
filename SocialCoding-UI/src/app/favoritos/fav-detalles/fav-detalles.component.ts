@@ -3,7 +3,11 @@ import { Usuario } from "src/app/_modelos/usuario";
 import { UsuarioService } from "src/app/_servicios/usuario.service";
 import { AlertifyService } from "src/app/_servicios/alertify.service";
 import { ActivatedRoute } from "@angular/router";
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import {
+  NgxGalleryOptions,
+  NgxGalleryImage,
+  NgxGalleryAnimation
+} from "ngx-gallery";
 
 @Component({
   selector: "app-fav-detalles",
@@ -16,7 +20,6 @@ export class FavDetallesComponent implements OnInit {
   galeriaImgs: NgxGalleryImage[];
 
   constructor(
-    private usuarioService: UsuarioService,
     private alertify: AlertifyService,
     private route: ActivatedRoute
   ) {}
@@ -29,13 +32,12 @@ export class FavDetallesComponent implements OnInit {
 
     this.galeriaOpciones = [
       {
-        width: '500px',
-        height: '500px',
+        width: "500px",
+        height: "500px",
         imagePercent: 100,
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
         preview: false
-
       }
     ];
 
@@ -52,8 +54,7 @@ export class FavDetallesComponent implements OnInit {
         big: this.usuario.imagenes[i].url,
         description: this.usuario.imagenes[i].descripcion
       });
-
-      return imgUrls;
     }
+    return imgUrls;
   }
 }

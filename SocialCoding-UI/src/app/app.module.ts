@@ -5,6 +5,8 @@ import { FormsModule } from "@angular/forms";
 import { BsDropdownModule, TabsModule } from "ngx-bootstrap";
 import { JwtModule } from "@auth0/angular-jwt";
 import { NgxGalleryModule } from "ngx-gallery";
+import { FileUploadModule } from "ng2-file-upload";
+
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -26,6 +28,7 @@ import { FavListaResolver } from "./_resolvers/fav-lista.resolver";
 import { FavEditarComponent } from "./favoritos/fav-editar/fav-editar.component";
 import { FavEditarResolver } from "./_resolvers/fav-editar.resolver";
 import { NoGuardado } from './_resolvers/no-guardado.guard';
+import { ImagenEditarComponent } from './favoritos/imagen-editar/imagen-editar.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -42,7 +45,8 @@ export function tokenGetter() {
     MensajesComponent,
     TarjetasFavComponent,
     FavDetallesComponent,
-    FavEditarComponent
+    FavEditarComponent,
+    ImagenEditarComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +56,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
     NgxGalleryModule,
+    FileUploadModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
