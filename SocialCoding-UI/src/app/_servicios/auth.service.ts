@@ -5,6 +5,7 @@ import { UsuarioAuth } from "../_modelos/usuario-auth";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { environment } from "src/environments/environment";
 import { Usuario } from "../_modelos/usuario";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: "root"
@@ -14,8 +15,14 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   tokenD: any;
   usuarioActual: Usuario;
+  imagenUrl = new BehaviorSubject<string>('../../assets/usuario.png');
+  imagenUrlActual = this.imagenUrl.asObservable();
 
   constructor(private http: HttpClient) {}
+  
+  cambiarImagen(imagenUrl: string) {
+    this.imagenUrl.next(imagenUrl);
+  }
 
   iniciarSesion(usuario: UsuarioAuth) {
     return this.http.post(this.urlB + "isesion", usuario).pipe(
@@ -26,7 +33,7 @@ export class AuthService {
           localStorage.setItem("usuario", JSON.stringify(usuario.usuario));
           this.tokenD = this.jwtHelper.decodeToken(usuario.token);
           this.usuarioActual = usuario.usuario;
-          console.log(this.tokenD);
+          this.cambiarImagen(this.usuarioActual.imagenUrl);
         }
       })
     );

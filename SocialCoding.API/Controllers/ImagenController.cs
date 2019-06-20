@@ -87,28 +87,61 @@ namespace SocialCoding.API.Controllers {
             return BadRequest ("No se pudo añadir la imagen");
         }
 
-        [HttpPost("{id}/establecerDePerfil")]
-        public async Task<IActionResult> EstablecerFotoDePerfil(int usuarioId, int id) {
-            if (usuarioId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized();
+        [HttpPost ("{id}/establecerDePerfil")]
+        public async Task<IActionResult> EstablecerFotoDePerfil (int usuarioId, int id) {
+            if (usuarioId != int.Parse (User.FindFirst (ClaimTypes.NameIdentifier).Value))
+                return Unauthorized ();
 
-            var usuarioDelRepo = await _repo.ObtenerUsuario(usuarioId);
+            var usuarioDelRepo = await _repo.ObtenerUsuario (usuarioId);
 
-            if (!usuarioDelRepo.Imagenes.Any(p => p.Id == id))
-                return Unauthorized();
+            if (!usuarioDelRepo.Imagenes.Any (p => p.Id == id))
+                return Unauthorized ();
 
-            var imagenDelRepo = await _repo.ObtenerImagen(id);
+            var imagenDelRepo = await _repo.ObtenerImagen (id);
 
-            if (imagenDelRepo.DePerfil) return BadRequest("Esta ya es la foto de perfil.");
-            
-            var fotoDePefilActual = await _repo.ObtenerFotoDePerfil(usuarioId);
+            if (imagenDelRepo.DePerfil) return BadRequest ("Esta ya es la foto de perfil.");
+
+            var fotoDePefilActual = await _repo.ObtenerFotoDePerfil (usuarioId);
             fotoDePefilActual.DePerfil = false;
 
             imagenDelRepo.DePerfil = true;
-            
-            if (await _repo.Guardar()) return NoContent();
 
-            return BadRequest("No se pudo establecer foto de perfil.");
+            if (await _repo.Guardar ()) return NoContent ();
+
+            return BadRequest ("No se pudo establecer foto de perfil.");
+
+        }
+
+        [HttpDelete ("{id}")]
+        public async Task<IActionResult> EliminarImagen (int usuarioId, int id) {
+            if (usuarioId != int.Parse (User.FindFirst (ClaimTypes.NameIdentifier).Value))
+                return Unauthorized ();
+
+            var usuario = await _repo.ObtenerUsuario (usuarioId);
+
+            if (!usuario.Imagenes.Any (x => x.Id == id)) return Unauthorized ();
+
+            var imagenDelRepo = await _repo.ObtenerImagen (id);
+
+            if (imagenDelRepo.DePerfil) return BadRequest ("No puede eliminar su foto de perfil.");
+
+            if (imagenDelRepo.IdPublica != null) {
+                var paramsEliminacion = new DeletionParams (imagenDelRepo.IdPublica);
+
+                var resultado = cloudinary.Destroy (paramsEliminacion);
+
+                if (resultado.Result == "ok") {
+                    _repo.Eliminar (imagenDelRepo);
+                }
+            }
+
+            if (imagenDelRepo.IdPublica == null) {
+                _repo.Eliminar (imagenDelRepo);
+            }
+
+            if (await _repo.Guardar ()) return Ok ();
+
+            return BadRequest ();
         }
     }
 }

@@ -13,6 +13,7 @@ import { AuthService } from "src/app/_servicios/auth.service";
 })
 export class FavEditarComponent implements OnInit {
   usuario: Usuario;
+  imagenUrl: string;
   @ViewChild("formularioEdicion") editarFormulario: NgForm;
   @HostListener("window:beforeunload", ["$event"])
   unloadNotification($event: any) {
@@ -32,6 +33,9 @@ export class FavEditarComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.usuario = data["usuario"];
     });
+    this.authService.imagenUrl.subscribe(
+      url => this.imagenUrl = url
+    )
   }
 
   actualizarUsuario() {
@@ -42,7 +46,7 @@ export class FavEditarComponent implements OnInit {
           this.alertify.exito("¡Perfil actualizado satisfactoriamente!");
           this.editarFormulario.reset(this.usuario);
         },
-        err => this.alertify.error(err)
+        err => this.alertify.error("Error al actualizar perfil")
       );
   }
 

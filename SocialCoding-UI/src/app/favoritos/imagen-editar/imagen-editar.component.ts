@@ -69,14 +69,35 @@ export class ImagenEditarComponent implements OnInit {
     this.usuarioServicio
       .establecerFotoDePerfil(this.authService.tokenD.nameid, imagen.id)
       .subscribe(
-        res =>{
-          this.dePerfilActual = this.imagenes.filter(p => p.dePerfil === true)[0];
+        res => {
+          this.dePerfilActual = this.imagenes.filter(
+            p => p.dePerfil === true
+          )[0];
           this.dePerfilActual.dePerfil = false;
           imagen.dePerfil = true;
-          this.fotoDePerfil.emit(imagen.url);
+          this.authService.cambiarImagen(imagen.url);
+          this.authService.usuarioActual.imagenUrl = imagen.url;
+          localStorage.setItem(
+            "usuario",
+            JSON.stringify(this.authService.usuarioActual)
+          );
           this.alertify.exito("Foto de perfil actualizada satisfactoriamente.");
         },
         err => this.alertify.error("Error al actualizar foto de perfil.")
       );
+  }
+
+  eliminarImagen(id: number) {
+    this.alertify.confirmar("¿Seguro que quieres eliminar esta foto?", () => {
+      this.usuarioServicio
+        .eliminarFoto(this.authService.tokenD.nameid, id)
+        .subscribe(
+          res => {
+            this.imagenes.splice(this.imagenes.findIndex(p => p.id === id), 1);
+            this.alertify.exito("¡Imagen eliminada satisfactoriamente!");
+          },
+          err => this.alertify.error("¡Error al eliminar la imagen!")
+        );
+    });
   }
 }

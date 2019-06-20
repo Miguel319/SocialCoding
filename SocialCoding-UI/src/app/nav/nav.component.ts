@@ -11,6 +11,7 @@ import { Router } from "@angular/router";
 })
 export class NavComponent implements OnInit {
   usuario: UsuarioAuth;
+  imagenUrl: string;
 
   constructor(
     private authServicio: AuthService,
@@ -23,6 +24,8 @@ export class NavComponent implements OnInit {
       nombreUsuario: "",
       contra: ""
     };
+
+    this.authServicio.imagenUrlActual.subscribe(url => this.imagenUrl = url);
   }
 
   getAuthServicio() {

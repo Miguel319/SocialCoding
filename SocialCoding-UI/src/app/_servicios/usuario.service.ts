@@ -28,4 +28,7 @@ export class UsuarioService {
     return this.http.post(this.urlBase + "usuarios/" + usuarioId + "/imagenes/" + id + "/establecerDePerfil", {});
   }
   
+  eliminarFoto(usuarioId: number, id: number) {
+    return this.http.delete(this.urlBase + "usuarios/"+ usuarioId + "/imagenes/"+ id);
+  }
 }
