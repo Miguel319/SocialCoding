@@ -29,11 +29,11 @@
           </div>
           <div>
             <strong>Última sesión:</strong>
-            <p>{{ usuario.ultimaSesion }}</p>
+            <p>{{ usuario.ultimaSesion | date: "medium" }}</p>
           </div>
           <div>
             <strong>Miembro desde:</strong>
-            <p>{{ usuario.creadoEn }}</p>
+            <p>{{ usuario.creadoEn | date: "mediumDate" }}</p>
           </div>
         </div>
         <div class="card-footer">

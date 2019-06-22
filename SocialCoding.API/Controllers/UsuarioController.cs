@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialCoding.API.Data.IRepositorio;
 using SocialCoding.API.Dtos;
+using SocialCoding.API.Helpers;
 
 namespace SocialCoding.API.Controllers {
+    [ServiceFilter(typeof(ActividadUsuario))]
     [Authorize]
     [Route ("api/usuarios")]
     [ApiController]

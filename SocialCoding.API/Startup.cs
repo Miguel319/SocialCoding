@@ -37,11 +37,13 @@ namespace SocialCoding.API {
             services.Configure<CloudinarySettings> (Configuration.GetSection ("CloudinarySettings"));
             services.AddAutoMapper ();
             services.AddTransient<Seed> ();
-            services.AddScoped<ICoderos, Coderos> ();
 
             #region LogicaNegocios
             // AddScoped --> El servicio es creado una vez por petición
             services.AddScoped<IAuth, Auth> ();
+            services.AddScoped<ICoderos, Coderos> ();
+            services.AddScoped<ActividadUsuario>();
+
             #endregion
 
             services.AddAuthentication (JwtBearerDefaults.AuthenticationScheme)
