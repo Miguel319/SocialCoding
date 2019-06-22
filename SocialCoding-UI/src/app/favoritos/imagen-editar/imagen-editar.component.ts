@@ -61,6 +61,15 @@ export class ImagenEditarComponent implements OnInit {
           dePerfil: res.dePerfil
         };
         this.imagenes.push(imagen);
+
+        if (imagen.dePerfil) {
+          this.authService.cambiarImagen(imagen.url);
+          this.authService.usuarioActual.imagenUrl = imagen.url;
+          localStorage.setItem(
+            "usuario",
+            JSON.stringify(this.authService.usuarioActual)
+          );
+        }
       }
     };
   }

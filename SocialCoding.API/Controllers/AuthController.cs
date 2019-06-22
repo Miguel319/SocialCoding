@@ -33,13 +33,13 @@ namespace SocialCoding.API.Controllers {
             if (await _auth.UsuarioExiste (usuarioARegistrarDto.NombreUsuario))
                 return BadRequest ("Usuario ya existe");
 
-            var usuarioACrear = new Usuario {
-                NombreUsuario = usuarioARegistrarDto.NombreUsuario
-            };
+            var usuarioACrear = _mapper.Map<Usuario> (usuarioARegistrarDto);
 
             var usuarioCreado = await _auth.Registrar (usuarioACrear, usuarioARegistrarDto.Contra);
 
-            return StatusCode (201);
+            var usuarioARetornar = _mapper.Map<UsuarioDetallesDto> (usuarioCreado);
+
+            return CreatedAtRoute ("ObtenerUsuario", new { controller = "Usuario", id = usuarioCreado.Id }, usuarioARetornar);
         }
 
         [HttpPost ("isesion")]

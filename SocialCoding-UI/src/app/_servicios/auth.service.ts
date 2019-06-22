@@ -5,7 +5,7 @@ import { UsuarioAuth } from "../_modelos/usuario-auth";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { environment } from "src/environments/environment";
 import { Usuario } from "../_modelos/usuario";
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -15,16 +15,16 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   tokenD: any;
   usuarioActual: Usuario;
-  imagenUrl = new BehaviorSubject<string>('../../assets/usuario.png');
+  imagenUrl = new BehaviorSubject<string>("../../assets/usuario.png");
   imagenUrlActual = this.imagenUrl.asObservable();
 
   constructor(private http: HttpClient) {}
-  
+
   cambiarImagen(imagenUrl: string) {
     this.imagenUrl.next(imagenUrl);
   }
 
-  iniciarSesion(usuario: UsuarioAuth) {
+  iniciarSesion(usuario: Usuario) {
     return this.http.post(this.urlB + "isesion", usuario).pipe(
       map((res: any) => {
         const usuario = res;
@@ -39,7 +39,7 @@ export class AuthService {
     );
   }
 
-  registrar(usuario: UsuarioAuth) {
+  registrar(usuario: Usuario) {
     return this.http.post(this.urlB + "registrar", usuario);
   }
 

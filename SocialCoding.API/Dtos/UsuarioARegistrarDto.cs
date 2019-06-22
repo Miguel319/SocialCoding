@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SocialCoding.API.Dtos {
@@ -8,8 +9,30 @@ namespace SocialCoding.API.Dtos {
         public string NombreUsuario { get; set; }
 
         [Required (ErrorMessage = "Este campo es obligatorio.")]
-        [StringLength (25, MinimumLength = 6,
-            ErrorMessage = "La contraseña debe estar entre 6 y 25 caracteres")]
+        [StringLength (25, MinimumLength = 4,
+            ErrorMessage = "La contraseña debe estar entre 4 y 25 caracteres")]
         public string Contra { get; set; }
+
+        [Required]
+        public string Alias { get; set; }
+
+        [Required]
+        public string Genero { get; set; }
+
+        [Required]
+        public DateTime FechaNacimiento { get; set; }
+
+        [Required]
+        public string Ciudad { get; set; }
+
+        [Required]
+        public string Pais { get; set; }
+        public DateTime CreadoEn { get; set; }
+        public DateTime UltimaSesion { get; set; }
+
+        public UsuarioARegistrarDto () {
+            CreadoEn = DateTime.Now;
+            UltimaSesion = DateTime.Now;
+        }
     }
 }

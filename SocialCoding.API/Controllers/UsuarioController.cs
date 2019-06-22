@@ -24,7 +24,7 @@ namespace SocialCoding.API.Controllers {
         [HttpGet]
         public async Task<IActionResult> ObtenerUsuarios () => Ok (_mapper.Map<IEnumerable<UsuarioListaDto>> (await _coderos.ObtenerUsuarios ()));
 
-        [HttpGet ("{id}")]
+        [HttpGet ("{id}", Name = "ObtenerUsuario")]
         public async Task<IActionResult> ObtenerUsuario (int id) => Ok (_mapper.Map<UsuarioDetallesDto> (await _coderos.ObtenerUsuario (id)));
 
         [HttpPut ("{id}")]

@@ -1,12 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../_servicios/auth.service";
 import { AlertifyService } from "../_servicios/alertify.service";
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder
-} from "@angular/forms";
+import { FormGroup, Validators, FormBuilder } from "@angular/forms";
+import { BsDatepickerConfig } from "ngx-bootstrap";
+import { Usuario } from "../_modelos/usuario";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-registro",
@@ -16,14 +14,20 @@ import {
 export class RegistroComponent implements OnInit {
   @Output() registroCancelado = new EventEmitter();
   registroFormulario: FormGroup;
+  bsConfig: Partial<BsDatepickerConfig>;
+  usuario: Usuario;
 
   constructor(
     private authServicio: AuthService,
     private alertify: AlertifyService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    this.bsConfig = {
+      containerClass: "theme-dark-blue"
+    };
     this.crearFormularioRegistro();
   }
 
@@ -31,13 +35,34 @@ export class RegistroComponent implements OnInit {
     this.registroFormulario = this.fb.group(
       {
         genero: ["masculino"],
-        nombreUsuario: ["", Validators.required],
+        nombreUsuario: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(20)
+          ]
+        ],
         alias: ["", Validators.required],
         fechaNacimiento: [null, Validators.required],
         ciudad: ["", Validators.required],
         pais: ["", Validators.required],
-        contra: ["", [Validators.required, Validators.minLength(4)]],
-        confirmarContra: ["", [Validators.required, Validators.minLength(4)]]
+        contra: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(25)
+          ]
+        ],
+        confirmarContra: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(25)
+          ]
+        ]
       },
       { validator: this.validarContrasenia }
     );
@@ -51,16 +76,17 @@ export class RegistroComponent implements OnInit {
   }
 
   registrar() {
-    // this.authServicio.registrar(this.usuario).subscribe(
-    //   res => {
-    //     this.alertify.exito("¡Usuario registrado satisfactoriamente!");
-    //     this.authServicio.limpiarCampos(this.usuario);
-    //   },
-    //   err => {
-    //     this.alertify.error(err);
-    //     console.error(err);
-    //   }
-    // );
+    if (this.registroFormulario.valid) {
+      this.usuario = Object.assign({}, this.registroFormulario.value);
+      this.authServicio.registrar(this.usuario).subscribe(
+        res => this.alertify.exito("Usuario creado exitosamente"),
+        err => this.alertify.error("Error al registrar usuario"),
+        () =>
+          this.authServicio.iniciarSesion(this.usuario).subscribe(() => {
+            this.router.navigate(["/favoritos"]);
+          })
+      );
+    }
     console.log(this.registroFormulario.value);
   }
 

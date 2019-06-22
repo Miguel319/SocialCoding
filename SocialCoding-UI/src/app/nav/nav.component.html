@@ -37,7 +37,7 @@
     <div *ngIf="sesionIniciada()" class="dropdown" dropdown>
       <a class="dropdown-toggle text-light pointing" dropdownToggle>
         <span class="mr-1"
-          ><img src="{{ imagenUrl }}" alt=""
+          ><img src="{{ imagenUrl || '../../../../assets//usuario.png' }}" alt=""
         /></span>
         ¡Bienvenido/a {{ getAuthServicio().tokenD?.unique_name | titlecase }}!
       </a>
