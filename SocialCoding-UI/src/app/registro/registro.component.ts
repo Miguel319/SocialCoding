@@ -1,7 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../_servicios/auth.service";
-import { UsuarioAuth } from "../_modelos/usuario-auth";
 import { AlertifyService } from "../_servicios/alertify.service";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder
+} from "@angular/forms";
 
 @Component({
   selector: "app-registro",
@@ -10,31 +15,53 @@ import { AlertifyService } from "../_servicios/alertify.service";
 })
 export class RegistroComponent implements OnInit {
   @Output() registroCancelado = new EventEmitter();
-  usuario: UsuarioAuth;
+  registroFormulario: FormGroup;
 
   constructor(
     private authServicio: AuthService,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.usuario = {
-      nombreUsuario: "",
-      contra: ""
-    };
+    this.crearFormularioRegistro();
+  }
+
+  crearFormularioRegistro() {
+    this.registroFormulario = this.fb.group(
+      {
+        genero: ["masculino"],
+        nombreUsuario: ["", Validators.required],
+        alias: ["", Validators.required],
+        fechaNacimiento: [null, Validators.required],
+        ciudad: ["", Validators.required],
+        pais: ["", Validators.required],
+        contra: ["", [Validators.required, Validators.minLength(4)]],
+        confirmarContra: ["", [Validators.required, Validators.minLength(4)]]
+      },
+      { validator: this.validarContrasenia }
+    );
+  }
+
+  validarContrasenia(formulario: FormGroup) {
+    return formulario.get("contra").value ===
+      formulario.get("confirmarContra").value
+      ? null
+      : { mismatch: true };
   }
 
   registrar() {
-    this.authServicio.registrar(this.usuario).subscribe(
-      res => {
-        this.alertify.exito("¡Usuario registrado satisfactoriamente!");
-        this.authServicio.limpiarCampos(this.usuario);
-      },
-      err => {
-        this.alertify.error(err);
-        console.error(err);
-      }
-    );
+    // this.authServicio.registrar(this.usuario).subscribe(
+    //   res => {
+    //     this.alertify.exito("¡Usuario registrado satisfactoriamente!");
+    //     this.authServicio.limpiarCampos(this.usuario);
+    //   },
+    //   err => {
+    //     this.alertify.error(err);
+    //     console.error(err);
+    //   }
+    // );
+    console.log(this.registroFormulario.value);
   }
 
   cancelar() {

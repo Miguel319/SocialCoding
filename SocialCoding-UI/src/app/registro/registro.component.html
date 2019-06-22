@@ -1,34 +1,219 @@
-<form #registroFormulario="ngForm" (ngSubmit)="registrar()">
+<form [formGroup]="registroFormulario" (ngSubmit)="registrar()">
   <h2 class="text-center text-primary">Registro de usuarios</h2>
   <hr />
 
   <div class="form-group">
-    <input
-      class="form-control"
-      type="text"
-      name="nombreUsuario"
-      placeholder="Nombre de usuario"
-      [(ngModel)]="usuario.nombreUsuario"
-      required
-    />
+    <label class="control-label mr-2">Sexo: </label>
+    <label class="radio-inline">
+      <input
+        type="radio"
+        class="mr-1"
+        value="masculino"
+        id=""
+        formControlName="genero"
+      />Masculino
+    </label>
+    <label class="radio-inline nl-3 ml-2">
+      <input
+        class="mr-1"
+        type="radio"
+        value="femenino"
+        formControlName="genero"
+      />Femenino
+    </label>
   </div>
-  
+
   <div class="form-group">
     <input
       class="form-control"
-      name="contra"
-      type="password"
-      [(ngModel)]="usuario.contra"
-      placeholder="Contraseña"
-      required
+      [ngClass]="{
+        'is-invalid':
+          registroFormulario.get('nombreUsuario').errors &&
+          registroFormulario.get('nombreUsuario').touched
+      }"
+      formControlName="nombreUsuario"
+      type="text"
+      placeholder="Nombre de usuario"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('nombreUsuario').hasError('required') &&
+        registroFormulario.get('nombreUsuario').touched
+      "
+    >
+      Introduzca un nombre de usuario.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          registroFormulario.get('alias').errors &&
+          registroFormulario.get('alias').touched
+      }"
+      formControlName="alias"
+      placeholder="Alias"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('alias').hasError('required') &&
+        registroFormulario.get('alias').touched
+      "
+    >
+      Introduzca su alias.
+    </div>
+  </div>
+  <div class="form-group">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          registroFormulario.get('fechaNacimiento').errors &&
+          registroFormulario.get('fechaNacimiento').touched
+      }"
+      placeholder="Fecha de nacimiento"
+      formControlName="fechaNacimiento"
+      type="date"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('fechaNacimiento').hasError('required') &&
+        registroFormulario.get('fechaNacimiento').touched
+      "
+    >
+      Introduzca su fecha de nacimiento.
+    </div>
+  </div>
+  <div class="form-group">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          registroFormulario.get('ciudad').errors &&
+          registroFormulario.get('ciudad').touched
+      }"
+      placeholder="Ciudad"
+      formControlName="ciudad"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('ciudad').hasError('required') &&
+        registroFormulario.get('ciudad').touched
+      "
+    >
+      Introduzca su ciudad.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          registroFormulario.get('pais').errors &&
+          registroFormulario.get('pais').touched
+      }"
+      placeholder="País"
+      formControlName="pais"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('pais').hasError('required') &&
+        registroFormulario.get('pais').touched
+      "
+    >
+      Introduca su país.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          registroFormulario.get('contra').errors &&
+          registroFormulario.get('contra').touched
+      }"
+      formControlName="contra"
+      type="password"
+      placeholder="Contraseña"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('contra').hasError('required') &&
+        registroFormulario.get('contra').touched
+      "
+    >
+      Introduzca una contraseña.
+    </div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('contra').hasError('minlength') &&
+          registroFormulario.get('contra');
+        touched
+      "
+    >
+      Contraseña: mínimo 4 carecteres.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          (registroFormulario.get('confirmarContra').errors &&
+            registroFormulario.get('confirmarContra').touched) ||
+          (registroFormulario.get('confirmarContra').touched &&
+            registroFormulario.hasError('mismatch'))
+      }"
+      formControlName="confirmarContra"
+      type="password"
+      placeholder="Confirmar contraseña"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('confirmarContra').hasError('required') &&
+        registroFormulario.get('confirmarContra').touched
+      "
+    >
+      Confirme su contraseña.
+    </div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.get('confirmarContra').hasError('minlength') &&
+        registroFormulario.get('confirmarContra').touched
+      "
+    >
+      Contraseña: mínimo 4 caracteres.
+    </div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registroFormulario.hasError('mismatch') &&
+        registroFormulario.get('confirmarContra').touched
+      "
+    >
+      Las contraseñas no coinciden.
+    </div>
   </div>
 
   <div class="form-group text-center">
     <button
       type="submit"
-      [disabled]="!registroFormulario.valid"
       class="btn btn-success"
+      [disabled]="registroFormulario.invalid"
     >
       Registrar
     </button>

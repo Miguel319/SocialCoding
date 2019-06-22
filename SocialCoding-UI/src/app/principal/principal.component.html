@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngIf="!modoRegistro" style="text-align: center">
+  <div *ngIf="!registro" style="text-align: center">
     <h1>Encuentra a tus código-colegas</h1>
     <p class="lead">Conoce a otros programadores como tú... !Regístrate ya!</p>
     <div class="text-center">
@@ -10,7 +10,7 @@
     </div>
   </div>
   <br />
-  <div *ngIf="modoRegistro" class="container">
+  <div *ngIf="registro" class="container">
     <div class="row justify-content-center">
       <div class="col-4">
         <app-registro

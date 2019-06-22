@@ -7,6 +7,7 @@ export interface Usuario {
   edad: number;
   genero: string;
   creadoEn: string;
+  fechaNacimiento: Date;
   ultimaSesion: Date;
   trabajaEn: string;
   imagenUrl: string;

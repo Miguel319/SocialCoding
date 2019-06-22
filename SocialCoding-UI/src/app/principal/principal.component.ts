@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-principal",
@@ -7,8 +7,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ["./principal.component.css"]
 })
 export class PrincipalComponent implements OnInit {
-  modoRegistro = false;
-  valores : any;
+  registro = false;
+  valores: any;
 
   constructor(private http: HttpClient) {}
 
@@ -17,20 +17,17 @@ export class PrincipalComponent implements OnInit {
   }
 
   registrarCambio() {
-    this.modoRegistro = true;
+    this.registro = true;
   }
 
   getValores() {
     this.http.get("http://localhost:5000/api/values").subscribe(
-      res => {
-        this.valores = res;
-        console.log(this.valores);
-      },
+      res => this.valores = res,
       err => console.error(err)
     );
   }
 
   cancelarModoRegistro(modoRegistro: boolean) {
-    this.modoRegistro = modoRegistro;
+    this.registro = modoRegistro;
   }
 }
