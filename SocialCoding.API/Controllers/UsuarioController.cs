@@ -10,7 +10,7 @@ using SocialCoding.API.Dtos;
 using SocialCoding.API.Helpers;
 
 namespace SocialCoding.API.Controllers {
-    [ServiceFilter(typeof(ActividadUsuario))]
+    [ServiceFilter (typeof (ActividadUsuario))]
     [Authorize]
     [Route ("api/usuarios")]
     [ApiController]
@@ -24,7 +24,16 @@ namespace SocialCoding.API.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObtenerUsuarios () => Ok (_mapper.Map<IEnumerable<UsuarioListaDto>> (await _coderos.ObtenerUsuarios ()));
+        public async Task<IActionResult> ObtenerUsuarios ([FromQuery] UsuarioParams usuarioParams) {
+            var usuarios = await _coderos.ObtenerUsuarios (usuarioParams);
+
+            var usuariosARetornar = _mapper.Map<IEnumerable<UsuarioListaDto>> (usuarios);
+
+            Response.AgregarPaginacion (usuarios.PaginaActual, usuarios.TamanoPagina, usuarios.ConteoTotal,
+                usuarios.PaginasTotales);
+
+            return Ok (usuariosARetornar);
+        }
 
         [HttpGet ("{id}", Name = "ObtenerUsuario")]
         public async Task<IActionResult> ObtenerUsuario (int id) => Ok (_mapper.Map<UsuarioDetallesDto> (await _coderos.ObtenerUsuario (id)));
