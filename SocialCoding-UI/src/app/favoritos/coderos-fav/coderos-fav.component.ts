@@ -3,6 +3,7 @@ import { Usuario } from "../../_modelos/usuario";
 import { AlertifyService } from "../../_servicios/alertify.service";
 import { UsuarioService } from "../../_servicios/usuario.service";
 import { ActivatedRoute } from "@angular/router";
+import { Paginacion, ResultadoPaginado } from "src/app/_modelos/paginacion";
 
 @Component({
   selector: "app-coderos-fav",
@@ -10,7 +11,8 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./coderos-fav.component.css"]
 })
 export class CoderosFavComponent implements OnInit {
-  usuarios: Usuario[];
+  usuarios: any[];
+  paginacion: Paginacion;
 
   constructor(
     private usuarioServicio: UsuarioService,
@@ -20,16 +22,31 @@ export class CoderosFavComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(
-      data => (this.usuarios = data["usuarios"]),
+      data => {
+        this.usuarios = data["usuarios"].resultado;
+        this.paginacion = data["usuarios"].paginacion;
+      },
       err => this.alertify.error(err)
     );
   }
 
+  paginaCambiada(event: any): void {
+    this.paginacion.paginaActual = event.page;
+    console.log(this.paginacion.paginaActual);
+    this.cargarUsuarios();
+  }
+
   cargarUsuarios() {
     this.usuarioServicio
-      .getUsuarios()
+      .getUsuarios(
+        this.paginacion.paginaActual,
+        this.paginacion.elementosPorPagina
+      )
       .subscribe(
-        (usuarios: Usuario[]) => (this.usuarios = usuarios),
+        (res: ResultadoPaginado<Usuario[]>) => {
+          this.usuarios = res.resultado;
+          this.paginacion = res.paginacion;
+        },
         err => this.alertify.error(err)
       );
   }

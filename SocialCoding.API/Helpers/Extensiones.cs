@@ -17,11 +17,10 @@ namespace SocialCoding.API.Helpers {
             var paginacionHeader = new PaginacionHeader (paginaActual, elementosPorPagina,
                 elementosTotales, paginasTotales);
 
-            var camelCase = new JsonSerializerSettings();
-            camelCase.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            respuesta.Headers.Add ("Pagination", JsonConvert.SerializeObject (paginacionHeader, camelCase));
-            respuesta.Headers.Add ("Access-Control-Expose-Headers", "Pagination");
-
+            var camelCase = new JsonSerializerSettings ();
+            camelCase.ContractResolver = new CamelCasePropertyNamesContractResolver ();
+            respuesta.Headers.Add ("Paginacion", JsonConvert.SerializeObject (paginacionHeader, camelCase));
+            respuesta.Headers.Add ("Access-Control-Expose-Headers", "Paginacion");
         }
 
         public static int CalcularEdad (this DateTime fecha) {

@@ -26,8 +26,8 @@ namespace SocialCoding.API.Data.LogicaNegocios {
 
         public async Task<ListaPaginada<Usuario>> ObtenerUsuarios (UsuarioParams usuarioParams) {
             var usuarios = _contexto.Usuarios.Include (img => img.Imagenes);
-              return  await ListaPaginada<Usuario>.Crear (usuarios,
-                    usuarioParams.NumeroPagina, usuarioParams.TamanoPagina);
+            return await ListaPaginada<Usuario>.Crear (usuarios,
+                usuarioParams.NoPagina, usuarioParams.TamanoPagina);
         }
 
     }

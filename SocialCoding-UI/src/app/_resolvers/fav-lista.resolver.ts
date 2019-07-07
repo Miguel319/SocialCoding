@@ -8,6 +8,9 @@ import { catchError } from "rxjs/operators";
 
 @Injectable()
 export class FavListaResolver implements Resolve<Usuario[]> {
+  noPagina = 1;
+  tamanoPagina = 10;
+
   constructor(
     private usuarioServicio: UsuarioService,
     private router: Router,
@@ -15,12 +18,14 @@ export class FavListaResolver implements Resolve<Usuario[]> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Usuario[]> {
-    return this.usuarioServicio.getUsuarios().pipe(
-      catchError(err => {
-        this.alertify.error("Problema al obtener los datos");
-        this.router.navigate(["/principal"]);
-        return of(null);
-      })
-    );
+    return this.usuarioServicio
+      .getUsuarios(this.noPagina, this.tamanoPagina)
+      .pipe(
+        catchError(err => {
+          this.alertify.error("Problema al obtener los datos");
+          this.router.navigate(["/principal"]);
+          return of(null);
+        })
+      );
   }
 }

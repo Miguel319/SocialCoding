@@ -1,6 +1,6 @@
-using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,15 +15,15 @@ namespace SocialCoding.API.Helpers {
             ConteoTotal = conteo;
             TamanoPagina = tamanoPag;
             PaginaActual = noPagina;
-            PaginasTotales = (int) Math.Ceiling (conteo / (double) TamanoPagina); 
-            this.AddRange(elementos);
+            PaginasTotales = (int) Math.Ceiling (conteo / (double) tamanoPag);
+            this.AddRange (elementos);
         }
 
-        public static async Task<ListaPaginada<T>> Crear(IQueryable<T> fuente,
+        public static async Task<ListaPaginada<T>> Crear (IQueryable<T> fuente,
             int noPagina, int tamanoPag) {
-                var conteo = await fuente.CountAsync();
-                var elementos = await fuente.Skip((noPagina - 1) * tamanoPag).Take(tamanoPag).ToListAsync();
-                return new ListaPaginada<T>(elementos, conteo, noPagina, tamanoPag);
-            }
+            var conteo = await fuente.CountAsync ();
+            var elementos = await fuente.Skip ((noPagina - 1) * tamanoPag).Take (tamanoPag).ToListAsync ();
+            return new ListaPaginada<T> (elementos, conteo, noPagina, tamanoPag);
+        }
     }
 }

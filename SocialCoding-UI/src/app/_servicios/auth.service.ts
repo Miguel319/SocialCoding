@@ -24,7 +24,7 @@ export class AuthService {
     this.imagenUrl.next(imagenUrl);
   }
 
-  iniciarSesion(usuario: Usuario) {
+  iniciarSesion(usuario: any) {
     return this.http.post(this.urlB + "isesion", usuario).pipe(
       map((res: any) => {
         const usuario = res;

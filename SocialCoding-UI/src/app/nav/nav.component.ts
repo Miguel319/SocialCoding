@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./nav.component.css"]
 })
 export class NavComponent implements OnInit {
-  usuario: UsuarioAuth;
+  usuario: any;
   imagenUrl: string;
 
   constructor(
@@ -25,7 +25,7 @@ export class NavComponent implements OnInit {
       contra: ""
     };
 
-    this.authServicio.imagenUrlActual.subscribe(url => this.imagenUrl = url);
+    this.authServicio.imagenUrlActual.subscribe(url => (this.imagenUrl = url));
   }
 
   getAuthServicio() {
