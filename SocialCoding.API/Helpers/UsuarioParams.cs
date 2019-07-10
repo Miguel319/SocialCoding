@@ -8,5 +8,9 @@ namespace SocialCoding.API.Helpers {
             set { tamanoPagina = (value > MaxPaginas) ? MaxPaginas : value; }
         }
 
+        public int UsuarioId { get; set; }
+        public bool MeGustas{ get; set; } = false;
+        public bool MeGustadores { get; set; } = false;
+
     }
 }

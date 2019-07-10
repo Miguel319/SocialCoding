@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 
-namespace SocialCoding.API.Models
-{
-    public class Usuario
-    {
+namespace SocialCoding.API.Models {
+    public class Usuario {
         public int Id { get; set; }
         public string NombreUsuario { get; set; }
         public byte[] ContraHash { get; set; }
@@ -20,5 +18,7 @@ namespace SocialCoding.API.Models
         public ICollection<Imagen> Imagenes { get; set; }
         public string Lenguajes { get; set; }
         public string Hobbies { get; set; }
+        public ICollection<MeGusta> MeGustadores { get; set; }
+        public ICollection<MeGusta> MeGustas { get; set; }
     }
 }

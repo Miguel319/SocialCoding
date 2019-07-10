@@ -80,7 +80,7 @@ namespace SocialCoding.API {
             }
 
             // app.UseHttpsRedirection();
-            // seeder.seedUsuarios();
+             //seeder.seedUsuarios();
             app.UseCors (x => x.AllowAnyOrigin ().AllowAnyMethod ().AllowAnyHeader ());
             app.UseAuthentication ();
             app.UseMvc ();

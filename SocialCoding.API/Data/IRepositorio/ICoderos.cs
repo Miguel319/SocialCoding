@@ -15,5 +15,6 @@ namespace SocialCoding.API.Data.IRepositorio
          Task<Usuario> ObtenerUsuario(int id);
          Task<Imagen> ObtenerImagen(int id);
          Task<Imagen> ObtenerFotoDePerfil(int usuarioId);
+         Task<MeGusta> ObtenerMeGusta(int usuarioId, int recibidorId);
     }
 }

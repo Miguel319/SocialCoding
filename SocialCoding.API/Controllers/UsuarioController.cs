@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using SocialCoding.API.Data.IRepositorio;
 using SocialCoding.API.Dtos;
 using SocialCoding.API.Helpers;
+using SocialCoding.API.Models;
 
 namespace SocialCoding.API.Controllers {
     [ServiceFilter (typeof (ActividadUsuario))]
@@ -49,6 +50,31 @@ namespace SocialCoding.API.Controllers {
             if (await _coderos.Guardar ()) return NoContent ();
 
             throw new Exception ($"Error al actualizar usuario {id}");
+        }
+
+        [HttpPost("{id}/setMeGusta/{recibidorId}")]
+        public async Task<IActionResult> MeGustaUsuario(int id, int recibidorId) {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) 
+                return Unauthorized();
+
+            var meGusta = await _coderos.ObtenerMeGusta(id, recibidorId);
+
+            if (meGusta != null)
+                return BadRequest($"No puede darle {"Me gusta"} al mismo usuario más de una vez.");
+
+            if (await _coderos.ObtenerUsuario(recibidorId) == null) 
+                return NotFound("Usuario no encontrado");
+
+            meGusta = new MeGusta{
+                MeGustadorId = id,
+                MeGustaaId = recibidorId
+            };
+
+            _coderos.Agregar<MeGusta>(meGusta);
+
+            if (await _coderos.Guardar()) return Ok();
+
+            return BadRequest($"Error al darle {"'Me Gusta'"} al usuario");
         }
     }
 }
