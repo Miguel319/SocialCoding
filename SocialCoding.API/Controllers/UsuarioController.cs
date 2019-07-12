@@ -26,6 +26,16 @@ namespace SocialCoding.API.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> ObtenerUsuarios ([FromQuery] UsuarioParams usuarioParams) {
+            var usuarioActualId = int.Parse (User.FindFirst (ClaimTypes.NameIdentifier).Value);
+
+            var usuarioDelRepo = await _coderos.ObtenerUsuario(usuarioActualId);
+
+            usuarioParams.UsuarioId = usuarioActualId;
+
+            if (string.IsNullOrEmpty(usuarioParams.Genero)) {
+                usuarioParams.Genero = usuarioDelRepo.Genero == "masculino" ?  "Femenino" : "masculino";
+            }
+
             var usuarios = await _coderos.ObtenerUsuarios (usuarioParams);
 
             var usuariosARetornar = _mapper.Map<IEnumerable<UsuarioListaDto>> (usuarios);
@@ -52,29 +62,29 @@ namespace SocialCoding.API.Controllers {
             throw new Exception ($"Error al actualizar usuario {id}");
         }
 
-        [HttpPost("{id}/setMeGusta/{recibidorId}")]
-        public async Task<IActionResult> MeGustaUsuario(int id, int recibidorId) {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) 
-                return Unauthorized();
+        [HttpPost ("{id}/meGusta/{recibidorId}")]
+        public async Task<IActionResult> MeGustaUsuario (int id, int recibidorId) {
+            if (id != int.Parse (User.FindFirst (ClaimTypes.NameIdentifier).Value))
+                return Unauthorized ();
 
-            var meGusta = await _coderos.ObtenerMeGusta(id, recibidorId);
+            var meGusta = await _coderos.ObtenerMeGusta (id, recibidorId);
 
             if (meGusta != null)
-                return BadRequest($"No puede darle {"Me gusta"} al mismo usuario más de una vez.");
+                return BadRequest ($"No puede darle {"Me gusta "} al mismo usuario más de una vez.");
 
-            if (await _coderos.ObtenerUsuario(recibidorId) == null) 
-                return NotFound("Usuario no encontrado");
+            if (await _coderos.ObtenerUsuario (recibidorId) == null)
+                return NotFound ("Usuario no encontrado");
 
-            meGusta = new MeGusta{
+            meGusta = new MeGusta {
                 MeGustadorId = id,
                 MeGustaaId = recibidorId
             };
 
-            _coderos.Agregar<MeGusta>(meGusta);
+            _coderos.Agregar<MeGusta> (meGusta);
 
-            if (await _coderos.Guardar()) return Ok();
+            if (await _coderos.Guardar ()) return Ok ();
 
-            return BadRequest($"Error al darle {"'Me Gusta'"} al usuario");
+            return BadRequest ($"Error al darle {"'Me Gusta'"} al usuario");
         }
     }
 }

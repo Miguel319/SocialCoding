@@ -29,8 +29,6 @@ namespace SocialCoding.API.Data.LogicaNegocios {
 
         public async Task<Usuario> ObtenerUsuario (int id) => await _contexto.Usuarios
             .Include (img => img.Imagenes)
-            .Include (x => x.MeGustas)
-            .Include (x => x.MeGustadores)
             .FirstOrDefaultAsync (usuario => usuario.Id == id);
 
         public async Task<ListaPaginada<Usuario>> ObtenerUsuarios (UsuarioParams usuarioParams) {
@@ -51,6 +49,7 @@ namespace SocialCoding.API.Data.LogicaNegocios {
                 var usuarioMeGustas = await ObtenerMeGustasDelUsuario (usuarioParams.UsuarioId, usuarioParams.MeGustadores);
                 usuarios = usuarios.Where (x => usuarioMeGustas.Contains (x.Id));
             }
+
 
             return await ListaPaginada<Usuario>.Crear (usuarios,
                 usuarioParams.NoPagina, usuarioParams.TamanoPagina);
