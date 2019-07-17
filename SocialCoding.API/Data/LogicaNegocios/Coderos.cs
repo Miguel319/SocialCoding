@@ -50,22 +50,9 @@ namespace SocialCoding.API.Data.LogicaNegocios {
                 usuarios = usuarios.Where (x => usuarioMeGustas.Contains (x.Id));
             }
 
-
             return await ListaPaginada<Usuario>.Crear (usuarios,
                 usuarioParams.NoPagina, usuarioParams.TamanoPagina);
         }
-
-        /*private async Task<IEnumerable<MeGusta>> ObtenerMeGustasDelUsuario (int id) {
-            var usuario = await ObtenerUsuario (id);
-            var usuarioMeGustas = usuario.MeGustadores.Where (x => x.MeGustadorId == id).ToList ();
-            return usuarioMeGustas;
-        }
-
-        private async Task<IEnumerable<MeGusta>> ObtenerMeGustadoresDelUsuario (int id) {
-            var usuario = await ObtenerUsuario (id);
-            var usuarioMeGustadores = usuario.MeGustas.Where (x => x.MeGustadorId == id).ToList ();
-            return usuarioMeGustadores;
-        }*/
 
         private async Task<IEnumerable<int>> ObtenerMeGustasDelUsuario (int id, bool meGustadores) {
             var usuario = await _contexto.Usuarios

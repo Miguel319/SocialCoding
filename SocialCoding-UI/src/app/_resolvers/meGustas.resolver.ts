@@ -7,9 +7,10 @@ import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 @Injectable()
-export class FavListaResolver implements Resolve<Usuario[]> {
+export class MeGustasResolver implements Resolve<Usuario[]> {
   noPagina = 1;
   tamanoPagina = 12;
+  meGustaParam = "MeGustadores";
 
   constructor(
     private usuarioServicio: UsuarioService,
@@ -19,7 +20,7 @@ export class FavListaResolver implements Resolve<Usuario[]> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Usuario[]> {
     return this.usuarioServicio
-      .getUsuarios(this.noPagina, this.tamanoPagina)
+      .getUsuarios(this.noPagina, this.tamanoPagina, this.meGustaParam)
       .pipe(
         catchError(err => {
           this.alertify.error("Problema al obtener los datos");

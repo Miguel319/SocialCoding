@@ -13,43 +13,11 @@ export class UsuarioService {
   urlBase = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
-  /*
-  getUsuarios(
-    page?,
-    elementosPorPagina?
-  ): Observable<ResultadoPaginado<Usuario[]>> {
-    const resultadoPaginado: ResultadoPaginado<
-      Usuario[]
-    > = new ResultadoPaginado<Usuario[]>();
-
-    let params = new HttpParams();
-
-    if (page != null && elementosPorPagina != null) {
-      params = params.append("noPagina", page);
-      params = params.append("tamanoPagina", elementosPorPagina);
-    }
-
-    return this.http
-      .get<Usuario[]>(this.urlBase + "usuarios", {
-        observe: "response",
-        params
-      })
-      .pipe(
-        map(response => {
-          resultadoPaginado.resultado = response.body;
-          if (response.headers.get("Paginacion") != null) {
-            resultadoPaginado.paginacion = JSON.parse(
-              response.headers.get("Paginacion")
-            );
-          }
-          return resultadoPaginado;
-        })
-      );
-  }*/
 
   getUsuarios(
     pagina?,
-    elementosPorPagina?
+    elementosPorPagina?,
+    meGustasParam?
   ): Observable<ResultadoPaginado<Usuario[]>> {
     const resultadoPaginado: ResultadoPaginado<
       Usuario[]
@@ -60,6 +28,14 @@ export class UsuarioService {
     if (pagina != null && elementosPorPagina != null) {
       params = params.append("noPagina", pagina);
       params = params.append("tamanoPagina", elementosPorPagina);
+    }
+
+    if (meGustasParam === "MeGustadores") {
+      params = params.append("meGustadores", "true");
+    }
+
+    if (meGustasParam === "MeGustas") {
+      params = params.append("meGustas", "true");
     }
 
     return this.http
@@ -103,6 +79,13 @@ export class UsuarioService {
   eliminarFoto(usuarioId: number, id: number) {
     return this.http.delete(
       this.urlBase + "usuarios/" + usuarioId + "/imagenes/" + id
+    );
+  }
+
+  enviarMeGusta(id: number, recibidorId: number) {
+    return this.http.post(
+      this.urlBase + "usuarios/" + id + "/meGusta/" + recibidorId,
+      {}
     );
   }
 }

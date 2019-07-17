@@ -9,13 +9,15 @@
       <li class="list-inline-item">
         <button
           class="btn btn-primary"
-          [routerLink]="['/favoritos/', usuario.id]"
+          [routerLink]="['/coderos/', usuario.id]"
         >
           <i class="fa fa-user"></i>
         </button>
       </li>
       <li class="list-inline-item">
-        <button class="btn btn-primary"><i class="fa fa-heart"></i></button>
+        <button class="btn btn-primary" (click)="enviarMeGusta(usuario.id)">
+          <i class="fa fa-heart"></i>
+        </button>
       </li>
       <li class="list-inline-item">
         <button class="btn btn-primary"><i class="fa fa-envelope"></i></button>

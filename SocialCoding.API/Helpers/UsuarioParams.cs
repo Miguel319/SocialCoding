@@ -10,7 +10,7 @@ namespace SocialCoding.API.Helpers {
 
         public int UsuarioId { get; set; }
         public string Genero { get; set; }
-        public bool MeGustas{ get; set; } = false;
+        public bool MeGustas { get; set; } = false;
         public bool MeGustadores { get; set; } = false;
 
     }

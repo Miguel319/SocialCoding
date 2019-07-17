@@ -1,0 +1,57 @@
+<div class="text-center mt-3">
+  <h2>
+    {{
+      meGustaParam === "MeGustadores"
+        ? "Coderos que me han dado 'Me Gusta'"
+        : "Coderos a los que les he dado 'Me Gusta'"
+    }}
+    : {{ paginacion.elementosTotales }}
+  </h2>
+</div>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="btn-group">
+      <button
+        class="btn btn-primary"
+        [(ngModel)]="meGustaParam"
+        btnRadio="MeGustadores"
+        (click)="cargarUsuarios('MeGustadores')"
+      >
+        Miembros que me han dado 'Me Gusta'
+      </button>
+      <button
+        class="btn btn-primary ml-4"
+        [(ngModel)]="meGustaParam"
+        btnRadio="MeGustas"
+        (click)="cargarUsuarios('MeGustas')"
+      >
+        Miembros a los que les he dado 'Me Gusta'
+      </button>
+    </div>
+  </div>
+  <br />
+
+  <div class="row">
+    <div
+      *ngFor="let usuario of usuarios"
+      class="col-sm-6 col-md-4 col-lg-4 col-xl-2"
+    >
+      <app-tarjetas-fav [usuario]="usuario"></app-tarjetas-fav>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center">
+  <pagination
+    [boundaryLinks]="true"
+    [totalItems]="paginacion.elementosTotales"
+    [itemsPerPage]="paginacion.elementosPorPagina"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"
+    (pageChanged)="paginaCambiada($event)"
+  >
+  </pagination>
+</div>

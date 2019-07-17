@@ -11,6 +11,7 @@ import { FavListaResolver } from "./_resolvers/fav-lista.resolver";
 import { FavEditarComponent } from "./favoritos/fav-editar/fav-editar.component";
 import { FavEditarResolver } from "./_resolvers/fav-editar.resolver";
 import { NoGuardado } from "./_resolvers/no-guardado.guard";
+import { MeGustasResolver } from "./_resolvers/meGustas.resolver";
 
 const routes: Routes = [
   { path: "", component: PrincipalComponent },
@@ -20,12 +21,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: "favoritos",
+        path: "coderos",
         component: CoderosFavComponent,
         resolve: { usuarios: FavListaResolver }
       },
       {
-        path: "favoritos/:id",
+        path: "coderos/:id",
         component: FavDetallesComponent,
         resolve: { usuario: FavDetalleResolver }
       },
@@ -35,8 +36,12 @@ const routes: Routes = [
         resolve: { usuario: FavEditarResolver },
         canDeactivate: [NoGuardado]
       },
-      { path: "coderos", component: CoderosListaComponent },
-      { path: "mensajes", component: MensajesComponent }
+      { path: "mensajes", component: MensajesComponent },
+      {
+        path: "meGustas",
+        component: CoderosListaComponent,
+        resolve: { usuarios: MeGustasResolver }
+      }
     ]
   },
   { path: "**", redirectTo: "", pathMatch: "full" }
