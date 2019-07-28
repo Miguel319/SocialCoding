@@ -16,8 +16,16 @@ namespace SocialCoding.API.Data.LogicaNegocios {
 
         public async Task<bool> Guardar () => await _contexto.SaveChangesAsync () > 0;
 
-        public Task<IEnumerable<Mensaje>> ObtenerConversacion (int usuarioId, int receptorId) {
-            throw new System.NotImplementedException ();
+        public async Task<IEnumerable<Mensaje>> ObtenerConversacion (int usuarioId, int receptorId) {
+            var mensajes = await _contexto.Mensajes
+                .Include (x => x.Remitente).ThenInclude (x => x.Imagenes)
+                .Include (x => x.Receptor).ThenInclude (x => x.Imagenes)
+                .Where(x => x.ReceptorId == usuarioId && x.RemitenteId == receptorId 
+                 || x.ReceptorId == receptorId && x.RemitenteId == usuarioId)
+                 .OrderByDescending(x => x.MensajeEnviado)
+                 .ToListAsync();
+
+            return mensajes;
         }
 
         public async Task<Imagen> ObtenerFotoDePerfil (int usuarioId) => await _contexto.Imagenes.Where (img => img.UsuarioId == usuarioId)
@@ -25,8 +33,8 @@ namespace SocialCoding.API.Data.LogicaNegocios {
 
         public async Task<Imagen> ObtenerImagen (int id) => await _contexto.Imagenes.FirstOrDefaultAsync (img => img.Id == id);
 
-        public async Task<MeGusta> ObtenerMeGusta (int usuarioId, int recibidorId) => 
-        await _contexto.MeGustas.FirstOrDefaultAsync (x => x.MeGustadorId == usuarioId && x.MeGustaaId == recibidorId);
+        public async Task<MeGusta> ObtenerMeGusta (int usuarioId, int recibidorId) =>
+            await _contexto.MeGustas.FirstOrDefaultAsync (x => x.MeGustadorId == usuarioId && x.MeGustaaId == recibidorId);
 
         public async Task<Mensaje> ObtenerMensaje (int id) => await _contexto.Mensajes.FirstOrDefaultAsync (x => x.Id == id);
 

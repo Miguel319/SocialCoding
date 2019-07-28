@@ -78,5 +78,17 @@ namespace SocialCoding.API.Controllers {
 
             throw new Exception ("Error al enviar el mensaje");
         }
+
+        [HttpGet("conversacion/{receptorId}")]
+        public async Task<IActionResult> ObtenerConversacion(int usuarioId, int receptorId){
+            if (usuarioId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var mensajesDelRepo = await _coderos.ObtenerConversacion(usuarioId, receptorId);
+
+            var conversacion = _mapper.Map<IEnumerable<MensajeARetornarDto>>(mensajesDelRepo);
+
+            return Ok(conversacion);
+        }
     }
 }
