@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { Usuario } from "../_modelos/usuario";
 import { ResultadoPaginado } from "../_modelos/paginacion";
 import { map } from "rxjs/operators";
+import { Mensaje } from '../_modelos/mensaje';
 
 @Injectable({
   providedIn: "root"
@@ -87,5 +88,28 @@ export class UsuarioService {
       this.urlBase + "usuarios/" + id + "/meGusta/" + recibidorId,
       {}
     );
+  }
+
+  obtenerMensajes(id: number, pagina?, elementosPorPagina?, contenedorMensaje?) {
+    const resultadoPaginado: ResultadoPaginado<Mensaje[]> = new ResultadoPaginado<Mensaje[]>();
+    
+    let params = new HttpParams();
+    params = params.append("ContenedorMensaje", contenedorMensaje);
+
+    if (pagina != null && elementosPorPagina != null) {
+      params = params.append("noPagina", pagina);
+      params = params.append("tamanoPagina", elementosPorPagina);
+    }
+
+    return this.http.get<Mensaje[]>(this.urlBase + "usuarios/"+ id + "/mensajes", {observe: "response", params})
+      .pipe(
+        map(res => {
+          resultadoPaginado.resultado = res.body;
+          if (res.headers.get('Paginacion') !== null) 
+            resultadoPaginado.paginacion = JSON.parse(res.headers.get('Paginacion'));
+
+          return resultadoPaginado;
+        })
+      );
   }
 }
