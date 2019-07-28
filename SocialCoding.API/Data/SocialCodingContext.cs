@@ -9,6 +9,7 @@ namespace SocialCoding.API.Data {
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Imagen> Imagenes { get; set; }
         public DbSet<MeGusta> MeGustas { get; set; }
+        public DbSet<Mensaje> Mensajes { get; set; }
 
         protected override void OnModelCreating (ModelBuilder builder) {
             builder.Entity<MeGusta> ()
@@ -25,6 +26,16 @@ namespace SocialCoding.API.Data {
                 .WithMany (x => x.MeGustas)
                 .HasForeignKey (x => x.MeGustadorId)
                 .OnDelete (DeleteBehavior.Restrict);
+
+            builder.Entity<Mensaje>()
+                .HasOne(x => x.Remitente)
+                .WithMany(x => x.MensajesEnviados)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Mensaje>()
+                .HasOne(x => x.Receptor)
+                .WithMany(x => x.MensajesRecibidos)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

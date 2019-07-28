@@ -20,5 +20,7 @@ namespace SocialCoding.API.Models {
         public string Hobbies { get; set; }
         public ICollection<MeGusta> MeGustadores { get; set; }
         public ICollection<MeGusta> MeGustas { get; set; }
+        public ICollection<Mensaje> MensajesEnviados { get; set; }
+        public ICollection<Mensaje> MensajesRecibidos { get; set; }
     }
 }

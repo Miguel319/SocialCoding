@@ -16,16 +16,42 @@ namespace SocialCoding.API.Data.LogicaNegocios {
 
         public async Task<bool> Guardar () => await _contexto.SaveChangesAsync () > 0;
 
+        public Task<IEnumerable<Mensaje>> ObtenerConversacion (int usuarioId, int receptorId) {
+            throw new System.NotImplementedException ();
+        }
+
         public async Task<Imagen> ObtenerFotoDePerfil (int usuarioId) => await _contexto.Imagenes.Where (img => img.UsuarioId == usuarioId)
             .FirstOrDefaultAsync (img => img.DePerfil);
 
         public async Task<Imagen> ObtenerImagen (int id) => await _contexto.Imagenes.FirstOrDefaultAsync (img => img.Id == id);
 
-        /*     public async Task<MeGusta> ObtenerMeGusta (int usuarioId, int recibidorId) =>
-            await _contexto.MeGustas.FirstOrDefaultAsync (x => x.MeGustadorId == usuarioId && x.MeGustaaId == recibidorId);
-*/
+        public async Task<MeGusta> ObtenerMeGusta (int usuarioId, int recibidorId) => 
+        await _contexto.MeGustas.FirstOrDefaultAsync (x => x.MeGustadorId == usuarioId && x.MeGustaaId == recibidorId);
 
-        public async Task<MeGusta> ObtenerMeGusta (int usuarioId, int recibidorId) => await _contexto.MeGustas.FirstOrDefaultAsync (x => x.MeGustadorId == usuarioId && x.MeGustaaId == recibidorId);
+        public async Task<Mensaje> ObtenerMensaje (int id) => await _contexto.Mensajes.FirstOrDefaultAsync (x => x.Id == id);
+
+        public async Task<ListaPaginada<Mensaje>> ObtenerMensajesParaUsuario (MensajeParams mensajeParams) {
+            var mensajes = _contexto.Mensajes
+                .Include (x => x.Remitente).ThenInclude (x => x.Imagenes)
+                .Include (x => x.Receptor).ThenInclude (x => x.Imagenes)
+                .AsQueryable ();
+
+            switch (mensajeParams.ContenedorMensaje) {
+                case "Recibidos":
+                    mensajes = mensajes.Where (x => x.ReceptorId == mensajeParams.UsuarioId);
+                    break;
+                case "Enviados":
+                    mensajes = mensajes.Where (x => x.RemitenteId == mensajeParams.UsuarioId);
+                    break;
+                default:
+                    mensajes = mensajes.Where (x => x.ReceptorId == mensajeParams.UsuarioId && !x.Leido);
+                    break;
+            }
+
+            mensajes = mensajes.OrderByDescending (x => x.MensajeEnviado);
+            return await ListaPaginada<Mensaje>.Crear (mensajes, mensajeParams.NoPagina,
+                mensajeParams.TamanoPagina);
+        }
 
         public async Task<Usuario> ObtenerUsuario (int id) => await _contexto.Usuarios
             .Include (img => img.Imagenes)
@@ -35,17 +61,11 @@ namespace SocialCoding.API.Data.LogicaNegocios {
             var usuarios = _contexto.Usuarios.Include (img => img.Imagenes).AsQueryable ();
 
             if (usuarioParams.MeGustadores) {
-                /*var meGustadores = await ObtenerMeGustadoresDelUsuario (usuarioParams.UsuarioId);
-                usuarios = usuarios.Where (x => x.MeGustadores.Any (y => y.MeGustadorId == x.Id));*/
-
                 var usuarioMeGustadores = await ObtenerMeGustasDelUsuario (usuarioParams.UsuarioId, usuarioParams.MeGustadores);
                 usuarios = usuarios.Where (x => usuarioMeGustadores.Contains (x.Id));
             }
 
             if (usuarioParams.MeGustas) {
-                /*var usuarioMeGustas = await ObtenerMeGustasDelUsuario (usuarioParams.UsuarioId);
-                usuarios = usuarios.Where (x => x.MeGustas.Any (y => y.MeGustadorId == x.Id));*/
-
                 var usuarioMeGustas = await ObtenerMeGustasDelUsuario (usuarioParams.UsuarioId, usuarioParams.MeGustadores);
                 usuarios = usuarios.Where (x => usuarioMeGustas.Contains (x.Id));
             }
